@@ -1,4 +1,3 @@
-
 const screen = document.getElementById('screen');
 const keys = document.querySelectorAll('.key');
 
@@ -13,4 +12,12 @@ keys.forEach(key => {
             screen.value += value;
         }
     });
+});
+
+window.addEventListener("load", function () {
+
+    setTimeout(function () {
+        document.querySelector(".loader").style.display = "none";
+
+    }, 3000);
 });
