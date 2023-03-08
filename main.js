@@ -17,7 +17,9 @@ keys.forEach(key => {
 window.addEventListener("load", function () {
 
     setTimeout(function () {
-        document.querySelector(".loader").style.display = "none";
+        document.body.style.overflow = "auto";
+        document.querySelector(".loader").style.display = "none"
+
 
     }, 3000);
 });
