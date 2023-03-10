@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta charset="UTF-8" />
@@ -32,6 +33,16 @@
             <button class="key operator" value="+">+</button>
             <button class="key clear" value="clear">C</button>
             <button class="key equal" value="=">=</button>
+            <button id="history-btn" class="history">History</button>
+        </div>
+        <div id="history-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <ul id="history-list"></ul>
+                <button id="clear-history-btn">Clear History</button>
+                <button id="copy">copy</button>
+
+            </div>
         </div>
     </div>
     <div class="loader">
@@ -41,4 +52,6 @@
         </div>
     </div>
     <script src="main.js"></script>
-</body></html>
+</body>
+
+</html>
