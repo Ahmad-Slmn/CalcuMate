@@ -27,16 +27,20 @@ keys.forEach(key => {
             }
         } else if (value === '=') {
             const operation = screen.value.trim();
-            if (operation && operation.indexOf('+') > -1 || operation.indexOf('-') > -1 || operation.indexOf('*') > -1 || operation.indexOf('/') > -1) {
-                const operands = operation.split(/(\+|\-|\*|\/)/).map(operand => operand.trim());
-                if (operands.length > 1) {
-                    const result = eval(operation);
-                    screen.value = result;
-                    operations.push(operation + " = " + result);
-                    // save operations to local storage
-                    localStorage.setItem("operations", JSON.stringify(operations));
+            if (operation) {
+                if (operation.indexOf('+') > -1 || operation.indexOf('-') > -1 || operation.indexOf('*') > -1 || operation.indexOf('/') > -1) {
+                    const operands = operation.split(/(\+|\-|\*|\/)/).map(operand => operand.trim());
+                    if (operands.length > 1) {
+                        const result = eval(operation);
+                        screen.value = result;
+                        operations.push(operation + " = " + result);
+                        // save operations to local storage
+                        localStorage.setItem("operations", JSON.stringify(operations));
+                    } else {
+                        alert('يرجى إدخال عملية رياضية صحيحة');
+                    }
                 } else {
-                    alert('يرجى إدخال عملية رياضية صحيحة');
+                    alert(' يرجى إدخال عملية رياضية صحيحة');
                 }
             } else {
                 alert('يرجى إدخال عملية رياضية ');
@@ -68,11 +72,26 @@ modalClose.onclick = function () {
 }
 
 clearHistoryBtn.onclick = function () {
-    history = [];
+    operations = [];
     localStorage.removeItem("operations");
     historyList.innerHTML = '';
 }
 
+const copyBtn = document.getElementById('copy-btn');
+
+copyBtn.onclick = function () {
+    if (operations.length > 0) {
+        const textArea = document.createElement('textarea');
+        textArea.value = operations.join('\n');
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        alert('تم نسخ السجل إلى الحافظة بنجاح!');
+    } else {
+        alert('لا يوجد سجل للنسخ.');
+    }
+}
 
 window.addEventListener("load", function () {
 
