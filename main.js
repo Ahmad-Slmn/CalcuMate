@@ -4,7 +4,7 @@ let operations = [];
 
 // check if operations exist in local storage
 if (localStorage.getItem("operations")) {
-    operations = JSON.parse(localStorage.getItem("operations"));
+    operations = JSON.parse(localStorage.getItem("operations"))
 }
 
 let timer = null;
@@ -25,22 +25,47 @@ keys.forEach(key => {
             if (screen.value.length > 0) {
                 screen.value = screen.value.slice(0, -1);
             }
+        } else if (value === '%') {
+            if (screen.value.length > 0 && !isNaN(screen.value)) {
+                const result = parseFloat(screen.value) / 100;
+                screen.value = result.toString();
+                operations.push(screen.value + " % = " + result);
+                // show result on screen
+                screen.value = result.toString();
+            }
+        } else if (value === '+') {
+            if (screen.value.length > 0 && !isNaN(screen.value.slice(-1))) {
+                screen.value += value;
+            }
+        } else if (value === '-') {
+            if (screen.value.length > 0 && !isNaN(screen.value.slice(-1))) {
+                screen.value += value;
+            }
+        } else if (value === '*') {
+            if (screen.value.length > 0 && !isNaN(screen.value.slice(-1))) {
+                screen.value += value;
+            }
+        } else if (value === '/') {
+            if (screen.value.length > 0 && !isNaN(screen.value.slice(-1))) {
+                screen.value += value;
+            }
         } else if (value === '=') {
             const operation = screen.value.trim();
             if (operation) {
-                if (operation.indexOf('+') > -1 || operation.indexOf('-') > -1 || operation.indexOf('*') > -1 || operation.indexOf('/') > -1) {
-                    const operands = operation.split(/(\+|\-|\*|\/)/).map(operand => operand.trim());
+                const invalidChars = /[^0-9\+\-\*\/\%\.]/g;
+                if (operation.match(invalidChars)) {
+                    alert('يرجى إدخال عملية رياضية صحيحة');
+                } else {
+                    const operands = operation.split(/(\+|\-|\*|\/|%)/).map(operand => operand.trim());
                     if (operands.length > 1) {
                         const result = eval(operation);
                         screen.value = result;
                         operations.push(operation + " = " + result);
                         // save operations to local storage
                         localStorage.setItem("operations", JSON.stringify(operations));
-                    } else {
-                        alert('يرجى إدخال عملية رياضية صحيحة');
+                        // show result on screen
+                        screen.value = result.toString();
                     }
-                } else {
-                    alert(' يرجى إدخال عملية رياضية صحيحة');
                 }
             } else {
                 alert('يرجى إدخال عملية رياضية ');
@@ -49,6 +74,8 @@ keys.forEach(key => {
             screen.value += value;
         }
     });
+
+
 });
 
 const historyBtn = document.getElementById('history-btn');
@@ -66,7 +93,6 @@ historyBtn.onclick = function () {
         historyList.appendChild(listItem);
     });
 }
-
 modalClose.onclick = function () {
     modal.style.display = 'none';
 }
