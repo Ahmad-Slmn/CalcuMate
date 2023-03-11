@@ -50,27 +50,27 @@ keys.forEach(key => {
                 screen.value += value;
             }
         } else if (value === '=') {
-            const operation = screen.value.trim();
-            if (operation) {
-                const invalidChars = /[^0-9\+\-\*\/\%\.]/g;
-                if (operation.match(invalidChars)) {
-                    alert('يرجى إدخال عملية رياضية صحيحة');
-                } else {
-                    const operands = operation.split(/(\+|\-|\*|\/|%)/).map(operand => operand.trim());
-                    if (operands.length > 1) {
-                        const result = eval(operation);
-                        screen.value = result;
-                        operations.push(operation + " = " + result);
-                        // save operations to local storage
-                        localStorage.setItem("operations", JSON.stringify(operations));
-                        // show result on screen
-                        screen.value = result.toString();
-                    }
-                }
-            } else {
-                alert('يرجى إدخال عملية رياضية ');
-            }
+    const operation = screen.value.trim();
+    if (operation) {
+        const invalidChars = /[^0-9\+\-\*\/\%\.]/g;
+        if (operation.match(invalidChars)) {
+            alert('يرجى إدخال عملية رياضية صحيحة');
         } else {
+            const operands = operation.split(/(\+|\-|\*|\/|%)/).map(operand => operand.trim());
+            if (operands.length > 1) {
+                const result = eval(operation);
+                operations.push(operation + " = " + result);
+                // save operations to local storage
+                localStorage.setItem("operations", JSON.stringify(operations));
+                // show result on screen
+                screen.value = result.toString();
+            }
+        }
+    } else {
+        alert('يرجى إدخال عملية رياضية ');
+    }
+}
+ else {
             screen.value += value;
         }
     });

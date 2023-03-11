@@ -8,6 +8,10 @@ body {
     overflow: hidden
 }
 
+.hold {
+    margin-right: 60px
+}
+
 .calculator {
     width: 300px;
     background-color: #444;
