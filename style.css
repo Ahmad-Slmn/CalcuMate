@@ -5,11 +5,8 @@
 }
 
 body {
-    overflow: hidden
-}
-
-.hold {
-    margin-right: 60px
+    overflow: hidden;
+    font-family: arial
 }
 
 .calculator {
@@ -49,11 +46,12 @@ body {
     border: none;
     outline: none;
     cursor: pointer;
+    font-weight: bold
 }
 
 .history {
     background-color: #4cd137;
-    width: calc(30% - 10px)
+    font-size: 15px
 }
 
 .operator {
@@ -95,18 +93,30 @@ body {
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: #333;
     margin: auto;
-    padding: 20px;
+    padding: 30px;
     border: 1px solid #888;
     width: 60%;
-    border-radius: 10px
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden
+}
+
+@media(max-width:767px) {
+    .modal-content {
+        width: 90%
+    }
 }
 
 .close {
     font-size: 28px;
     font-weight: bold;
-    cursor: pointer
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 3px;
+    color: #fff
 }
 
 .close:hover,
@@ -119,10 +129,45 @@ body {
 #history-list {
     list-style: none;
     padding: 0;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#history-list li {
+    border-bottom: 1px solid #a39c9c;
+    padding: 10px 0;
+    font-size: 15px
+}
+
+#history-list li:last-of-type {
+    border-bottom: none
+}
+
+.modal-content > div button {
+    padding: 5px 10px;
+    border-radius: 6px;
+    outline: none;
+    border: none;
+    color: #fff;
+    cursor: pointer
 }
 
 #clear-history-btn {
     margin-top: 10px;
+    background-color: #ff6b6b
+}
+
+#clear-history-btn:hover {
+    background-color: #ff6b6b66
+}
+
+.modal-content > div button:last-of-type {
+    background-color: #4cd137
+}
+
+.modal-content > div button:last-of-type:hover {
+    background-color: #4cd13787
 }
 
 
