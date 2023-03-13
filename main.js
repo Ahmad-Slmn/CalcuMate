@@ -94,6 +94,7 @@ const modalClose = document.getElementsByClassName('close')[0];
 const historyList = document.getElementById('history-list');
 const clearHistoryBtn = document.getElementById('clear-history-btn');
 
+
 // Show history modal when history button is clicked
 historyBtn.onclick = function () {
     modal.style.display = 'block';
@@ -118,6 +119,19 @@ clearHistoryBtn.onclick = function () {
     historyList.innerHTML = '';
 }
 
+function checkHistory() {
+    if (historyList.children.length === 0) {
+        historyList.innerHTML = "The history is empty.";
+        historyList.style.textAlign = "center";
+    } else {
+
+        historyList.style.textAlign = "left";
+    }
+}
+
+setInterval(checkHistory);
+
+
 // Copy history to clipboard when copy button is clicked
 const copyBtn = document.getElementById('copy-btn');
 
@@ -131,7 +145,7 @@ copyBtn.onclick = function () {
         document.body.removeChild(textArea);
         alert('History copied to clipboard successfully!');
     } else {
-        alert('No history to copy.');
+        alert('No history to copy.')
     }
 }
 
