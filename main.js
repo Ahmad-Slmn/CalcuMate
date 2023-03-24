@@ -62,7 +62,7 @@ keys.forEach(key => {
         }
 
         // If the value is an operator, add it to the screen if the last character is a number
-        else if (value === '+' || value === '-' || value === '*' || value === '/') {
+        else if (value === '+' || value === '-' || value === '×' || value === '÷') {
             if (screen.value.length > 0 && !isNaN(screen.value.slice(-1))) {
                 // Change division symbol from '/' to '÷'
                 if (value === '/') {
@@ -174,6 +174,7 @@ clearHistoryBtn.addEventListener('click', function () {
     modal.appendChild(confirmDelete);
 
     // Assign a function to the "yes" button to delete the item and remove the confirmation element from the page.
+
     const confirmDeleteYes = document.querySelector('.confirm-delete-yes');
     confirmDeleteYes.addEventListener('click', function () {
         operations = [];
@@ -209,8 +210,15 @@ const copyBtn = document.getElementById('copy-btn');
 
 copyBtn.onclick = function () {
     if (operations.length > 0) {
+        const operationsToCopy = operations.map(operation => {
+            if (typeof operation === 'string') {
+                const operationElem = document.createElement('div');
+                operationElem.innerHTML = operation;
+                return operationElem.innerText;
+            }
+        }).filter(text => text !== undefined);
         const textArea = document.createElement('textarea');
-        textArea.value = operations.join('\n');
+        textArea.value = operationsToCopy.join('\n') + '\n';
         document.body.appendChild(textArea);
         textArea.select();
         document.execCommand('copy');
@@ -220,6 +228,8 @@ copyBtn.onclick = function () {
         alert('No history to copy.')
     }
 }
+
+
 
 // Remove the loading spinner after page load
 window.addEventListener("load", function () {
