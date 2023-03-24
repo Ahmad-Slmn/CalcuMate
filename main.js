@@ -45,34 +45,64 @@ keys.forEach(key => {
                 const result = parseFloat(screen.value) / 100;
                 screen.value = result.toString();
                 const date = new Date();
-                const operation = screen.value + " % = " + result + "  " + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-                operations.push(operation);
+                const operation = screen.value + " % = " + result;
+                const operationDate = document.createElement('span');
+                operationDate.innerText = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                operationDate.classList.add("Operation-Date");
+                const operationElem = document.createElement('div');
+                const operationText = document.createElement('span');
+                operationText.innerText = operation;
+                operationText.classList.add("Operation-Text");
+                operationElem.appendChild(operationText);
+                operationElem.appendChild(operationDate);
+                document.getElementById('history-list').appendChild(operationElem)
+                operations.push(operationElem.outerHTML);
                 localStorage.setItem("operations", JSON.stringify(operations));
             }
         }
+
         // If the value is an operator, add it to the screen if the last character is a number
         else if (value === '+' || value === '-' || value === '*' || value === '/') {
             if (screen.value.length > 0 && !isNaN(screen.value.slice(-1))) {
-                screen.value += value;
+                // Change division symbol from '/' to '÷'
+                if (value === '/') {
+                    screen.value += '÷';
+                }
+                // Change multiplication symbol from '*' to '×'
+                else if (value === '*') {
+                    screen.value += '×';
+                } else {
+                    screen.value += value;
+                }
             }
         }
+
         // If the value is '=', evaluate the expression and store the operation in an array
         else if (value === '=') {
             const operation = screen.value.trim();
             if (operation) {
-                const invalidChars = /[^0-9\+\-\*\/\%\.]/g;
+                const invalidChars = /[^0-9\+\-\÷\×\%\.]/g;
                 if (operation.match(invalidChars)) {
                     alert('Please enter a valid arithmetic operation');
                 } else {
-                    const operands = operation.split(/(\+|\-|\*|\/|%)/).map(operand => operand.trim());
+
+                    // The regex has been modified here to use the required arithmetic symbols.
+                    const operands = operation.split(/(\+|\-|\×|\÷|\%)/).map(operand => operand.trim());
                     if (operands.length > 1) {
-                        const result = eval(operation);
+                        // The replace() function was used to replace the original arithmetic operators (/ and *) with the required symbols (÷ and ×).
+                        const result = eval(operation.replace(/\×/g, '*').replace(/\÷/g, '/'));
                         const date = new Date();
-                        const operationStr = operation + " = " + result + "  " + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-                        operations.push(operationStr);
-
+                        const operationDate = document.createElement('span');
+                        operationDate.innerText = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                        operationDate.classList.add("Operation-Date");
+                        const operationElem = document.createElement('div');
+                        const operationText = document.createElement('span');
+                        operationText.innerText = operation.replace(/\×/g, '×').replace(/\÷/g, '÷') + " = " + result;
+                        operationText.classList.add("Operation-Text");
+                        operationElem.appendChild(operationText);
+                        operationElem.appendChild(operationDate);
+                        operations.push(operationElem.outerHTML);
                         screen.value = result.toString();
-
                         localStorage.setItem("operations", JSON.stringify(operations));
                     }
                 }
@@ -80,6 +110,8 @@ keys.forEach(key => {
                 alert('Please enter an arithmetic operation');
             }
         }
+
+
         // For any other key, append its value to the screen
         else {
             screen.value += value;
@@ -92,20 +124,29 @@ const historyBtn = document.getElementById('history-btn');
 const modal = document.getElementById('history-modal');
 const modalClose = document.getElementsByClassName('close')[0];
 const historyList = document.getElementById('history-list');
-const clearHistoryBtn = document.getElementById('clear-history-btn');
+const clearHistoryBtn = document.getElementById('clear-history-btn')
 
 
 // Show history modal when history button is clicked
 historyBtn.onclick = function () {
     modal.style.display = 'block';
     historyList.innerHTML = '';
-    // Loop through operations and append them to the history list
-    operations.forEach(operation => {
-        const listItem = document.createElement('li');
-        listItem.innerText = operation;
-        historyList.appendChild(listItem);
+    // Loop through operations in reverse order and append them to the history list
+    operations.slice().reverse().forEach(operation => {
+        const operationElem = document.createElement('li');
+        operationElem.innerHTML = operation;
+        historyList.appendChild(operationElem);
+        const deleteBtn = document.createElement('button');
+        deleteBtn.innerText = 'Delete';
+        deleteBtn.onclick = function () {
+            operationElem.remove();
+            operations.splice(operations.indexOf(operationElem.outerHTML), 1);
+            localStorage.setItem("operations", JSON.stringify(operations));
+        };
+        operationElem.appendChild(deleteBtn);
     });
 }
+
 
 // Hide history modal when close button is clicked
 modalClose.onclick = function () {
@@ -113,12 +154,42 @@ modalClose.onclick = function () {
 }
 
 // Clear history and remove from local storage when clear history button is clicked
-clearHistoryBtn.onclick = function () {
-    operations = [];
-    localStorage.removeItem("operations");
-    historyList.innerHTML = '';
-}
+clearHistoryBtn.addEventListener('click', function () {
 
+    if (operations.length === 0) {
+        alert("There is no record to delete!");
+        return;
+    }
+
+    // Create the confirmation element and add it to the page.
+    const confirmDelete = document.createElement('div');
+    confirmDelete.classList.add('confirm-delete');
+    confirmDelete.innerHTML = `
+        <div class="confirm-delete-message">
+            <p>Are you sure you want to clear the history?</p>
+            <button class="confirm-delete-yes">yes</button>
+            <button class="confirm-delete-no">no</button>
+        </div>
+    `;
+    modal.appendChild(confirmDelete);
+
+    // Assign a function to the "yes" button to delete the item and remove the confirmation element from the page.
+    const confirmDeleteYes = document.querySelector('.confirm-delete-yes');
+    confirmDeleteYes.addEventListener('click', function () {
+        operations = [];
+        localStorage.removeItem("operations");
+        historyList.innerHTML = '';
+        confirmDelete.remove();
+    });
+
+    // Assign a function to the "no" button to remove the confirmation element from the page.
+    const confirmDeleteNo = document.querySelector('.confirm-delete-no');
+    confirmDeleteNo.addEventListener('click', function () {
+        confirmDelete.remove();
+    });
+});
+
+// Update checkHistory function to improve readability and ease of future modifications
 function checkHistory() {
     if (historyList.children.length === 0) {
         historyList.innerHTML = "The history is empty.";
@@ -129,6 +200,7 @@ function checkHistory() {
     }
 }
 
+// Call checkHistory function to update the display
 setInterval(checkHistory);
 
 
@@ -154,5 +226,5 @@ window.addEventListener("load", function () {
     setTimeout(function () {
         document.body.style.overflow = "auto";
         document.querySelector(".loader").style.display = "none"
-    }, 3000);
+    }, 1500);
 });
