@@ -101,7 +101,8 @@ body {
     width: 60%;
     border-radius: 10px;
     position: relative;
-    overflow: hidden
+    overflow: hidden;
+
 }
 
 @media(max-width:767px) {
@@ -109,6 +110,13 @@ body {
         width: 97%
     }
 }
+
+@media(min-width:991px) {
+    .modal-content {
+        width: 40%
+    }
+}
+
 
 .close {
     font-size: 28px;
@@ -131,7 +139,7 @@ body {
     list-style: none;
     background: #fff;
     border-radius: 10px;
-    padding: 10px;
+    padding: 10px
 }
 
 #history-list li {
@@ -140,7 +148,9 @@ body {
     font-size: 15px;
     display: flex;
     grid-gap: 10px;
-    align-items: center
+    align-items: center;
+    position: relative;
+    overflow: hidden
 }
 
 #history-list li:last-of-type {
@@ -159,7 +169,10 @@ body {
     color: #fff;
     border-radius: 6px;
     padding: 5px 10px;
-    cursor: pointer
+    cursor: pointer;
+    position: absolute;
+    top: 6px;
+    right: 0
 }
 
 #history-list li > button:hover {
