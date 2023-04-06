@@ -55,7 +55,7 @@ keys.forEach(key => {
                 operationText.classList.add("Operation-Text");
                 operationElem.appendChild(operationText);
                 operationElem.appendChild(operationDate);
-                document.getElementById('history-list').appendChild(operationElem)
+                document.getElementById('record-list').appendChild(operationElem)
                 operations.push(operationElem.outerHTML);
                 localStorage.setItem("operations", JSON.stringify(operations));
             }
@@ -120,22 +120,22 @@ keys.forEach(key => {
 });
 
 // Select DOM elements
-const historyBtn = document.getElementById('history-btn');
-const modal = document.getElementById('history-modal');
+const recordBtn = document.getElementById('record-btn');
+const modal = document.getElementById('record-modal');
 const modalClose = document.getElementsByClassName('close')[0];
-const historyList = document.getElementById('history-list');
-const clearHistoryBtn = document.getElementById('clear-history-btn')
+const recordList = document.getElementById('record-list');
+const clearrecordBtn = document.getElementById('clear-record-btn')
 
 
-// Show history modal when history button is clicked
-historyBtn.onclick = function () {
+// Show record modal when record button is clicked
+recordBtn.onclick = function () {
     modal.style.display = 'block';
-    historyList.innerHTML = '';
-    // Loop through operations in reverse order and append them to the history list
+    recordList.innerHTML = '';
+    // Loop through operations in reverse order and append them to the record list
     operations.slice().reverse().forEach(operation => {
         const operationElem = document.createElement('li');
         operationElem.innerHTML = operation;
-        historyList.appendChild(operationElem);
+        recordList.appendChild(operationElem);
         const deleteBtn = document.createElement('button');
         deleteBtn.innerText = 'Delete';
         deleteBtn.onclick = function () {
@@ -148,13 +148,13 @@ historyBtn.onclick = function () {
 }
 
 
-// Hide history modal when close button is clicked
+// Hide record modal when close button is clicked
 modalClose.onclick = function () {
     modal.style.display = 'none';
 }
 
-// Clear history and remove from local storage when clear history button is clicked
-clearHistoryBtn.addEventListener('click', function () {
+// Clear record and remove from local storage when clear record button is clicked
+clearrecordBtn.addEventListener('click', function () {
 
     if (operations.length === 0) {
         alert("There is no record to delete!");
@@ -166,7 +166,7 @@ clearHistoryBtn.addEventListener('click', function () {
     confirmDelete.classList.add('confirm-delete');
     confirmDelete.innerHTML = `
         <div class="confirm-delete-message">
-            <p>Are you sure you want to clear the history?</p>
+            <p>Are you sure you want to clear all records?</p>
             <button class="confirm-delete-yes">yes</button>
             <button class="confirm-delete-no">no</button>
         </div>
@@ -179,7 +179,7 @@ clearHistoryBtn.addEventListener('click', function () {
     confirmDeleteYes.addEventListener('click', function () {
         operations = [];
         localStorage.removeItem("operations");
-        historyList.innerHTML = '';
+        recordList.innerHTML = '';
         confirmDelete.remove();
     });
 
@@ -190,22 +190,22 @@ clearHistoryBtn.addEventListener('click', function () {
     });
 });
 
-// Update checkHistory function to improve readability and ease of future modifications
-function checkHistory() {
-    if (historyList.children.length === 0) {
-        historyList.innerHTML = "The history is empty.";
-        historyList.style.textAlign = "center";
+// Update check Record function to improve readability and ease of future modifications
+function checkrecord() {
+    if (recordList.children.length === 0) {
+        recordList.innerHTML = "The record is empty.";
+        recordList.style.textAlign = "center";
     } else {
 
-        historyList.style.textAlign = "left";
+        recordList.style.textAlign = "left";
     }
 }
 
-// Call checkHistory function to update the display
-setInterval(checkHistory);
+// Call check Record function to update the display
+setInterval(checkrecord);
 
 
-// Copy history to clipboard when copy button is clicked
+// Copy record to clipboard when copy button is clicked
 const copyBtn = document.getElementById('copy-btn');
 
 copyBtn.onclick = function () {
@@ -223,9 +223,9 @@ copyBtn.onclick = function () {
         textArea.select();
         document.execCommand('copy');
         document.body.removeChild(textArea);
-        alert('History copied to clipboard successfully!');
+        alert('Record copied to clipboard successfully!');
     } else {
-        alert('No history to copy.')
+        alert('No record to copy.')
     }
 }
 
@@ -236,5 +236,5 @@ window.addEventListener("load", function () {
     setTimeout(function () {
         document.body.style.overflow = "auto";
         document.querySelector(".loader").style.display = "none"
-    }, 1500);
+    }, 1100);
 });
