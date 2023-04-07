@@ -228,13 +228,3 @@ copyBtn.onclick = function () {
         alert('No record to copy.')
     }
 }
-
-
-
-// Remove the loading spinner after page load
-window.addEventListener("load", function () {
-    setTimeout(function () {
-        document.body.style.overflow = "auto";
-        document.querySelector(".loader").style.display = "none"
-    }, 1100);
-});
