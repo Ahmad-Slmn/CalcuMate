@@ -13,7 +13,6 @@ if (localStorage.getItem("operations")) {
 // Declare a variable to store a timer reference
 let timer = null;
 
-
 // The forEach method is used to apply the click event to each key
 keys.forEach(key => {
     // Add a mousedown event listener to the key
@@ -31,6 +30,8 @@ keys.forEach(key => {
     key.addEventListener('mouseup', () => {
         // Clear the timer set by the mousedown event listener
         clearTimeout(timer);
+
+
         // Get the value of the key
         const value = key.getAttribute('value');
         // If the value is 'clear', remove the last character from the screen
@@ -39,31 +40,15 @@ keys.forEach(key => {
                 screen.value = screen.value.slice(0, -1);
             }
         }
-        // If the value is '%', calculate the percentage and store the operation in an array
-        else if (value === '%') {
-            if (screen.value.length > 0 && !isNaN(screen.value)) {
-                const result = parseFloat(screen.value) / 100;
-                screen.value = result.toString();
-                const date = new Date();
-                const operation = screen.value + " % = " + result;
-                const operationDate = document.createElement('span');
-                operationDate.innerText = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-                operationDate.classList.add("Operation-Date");
-                const operationElem = document.createElement('div');
-                const operationText = document.createElement('span');
-                operationText.innerText = operation;
-                operationText.classList.add("Operation-Text");
-                operationElem.appendChild(operationText);
-                operationElem.appendChild(operationDate);
-                document.getElementById('record-list').appendChild(operationElem)
-                operations.push(operationElem.outerHTML);
-                localStorage.setItem("operations", JSON.stringify(operations));
-            }
+
+        // If the value is a number, add it to the screen
+        else if (!isNaN(value) || value === '.') {
+            screen.value += value;
         }
 
         // If the value is an operator, add it to the screen if the last character is a number
-        else if (value === '+' || value === '-' || value === '×' || value === '÷') {
-            if (screen.value.length > 0 && !isNaN(screen.value.slice(-1))) {
+        else if (value === '+' || value === '-' || value === '×' || value === '÷' || value === '%') {
+            if (screen.value.length > 0 && (!isNaN(screen.value.slice(-1)) || screen.value.slice(-1) === '%')) {
                 // Change division symbol from '/' to '÷'
                 if (value === '/') {
                     screen.value += '÷';
@@ -81,7 +66,7 @@ keys.forEach(key => {
         else if (value === '=') {
             const operation = screen.value.trim();
             if (operation) {
-                const invalidChars = /[^0-9\+\-\÷\×\%\.]/g;
+                const invalidChars = /[^0-9\+\-\÷\×\%\.\(\)]/g;
                 if (operation.match(invalidChars)) {
                     alert('Please enter a valid arithmetic operation');
                 } else {
@@ -90,14 +75,14 @@ keys.forEach(key => {
                     const operands = operation.split(/(\+|\-|\×|\÷|\%)/).map(operand => operand.trim());
                     if (operands.length > 1) {
                         // The replace() function was used to replace the original arithmetic operators (/ and *) with the required symbols (÷ and ×).
-                        const result = eval(operation.replace(/\×/g, '*').replace(/\÷/g, '/'));
+                        const result = eval(operation.replace(/\×/g, '*').replace(/\÷/g, '/').replace(/\%/g, '/100'));
                         const date = new Date();
                         const operationDate = document.createElement('span');
                         operationDate.innerText = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
                         operationDate.classList.add("Operation-Date");
                         const operationElem = document.createElement('div');
                         const operationText = document.createElement('span');
-                        operationText.innerText = operation.replace(/\×/g, '×').replace(/\÷/g, '÷') + " = " + result;
+                        operationText.innerText = operation.replace(/\×/g, '×').replace(/\÷/g, '÷').replace(/\%/g, '%') + " = " + result;
                         operationText.classList.add("Operation-Text");
                         operationElem.appendChild(operationText);
                         operationElem.appendChild(operationDate);
@@ -110,7 +95,6 @@ keys.forEach(key => {
                 alert('Please enter an arithmetic operation');
             }
         }
-
 
         // For any other key, append its value to the screen
         else {

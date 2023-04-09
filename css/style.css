@@ -23,16 +23,14 @@ body {
     width: 100%;
     background-color: #333;
     padding: 10px;
-    text-align: right;
-    box-sizing: border-box;
+    text-align: right
 }
 
 .keys {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 10px;
-    box-sizing: border-box;
+    padding: 10px
 }
 
 .key,
