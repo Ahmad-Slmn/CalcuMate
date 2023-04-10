@@ -186,7 +186,7 @@ function checkrecord() {
 }
 
 // Call check Record function to update the display
-setInterval(checkrecord);
+setInterval(checkrecord, );
 
 
 // Copy record to clipboard when copy button is clicked
@@ -212,3 +212,38 @@ copyBtn.onclick = function () {
         alert('No record to copy.')
     }
 }
+
+// Change Theme Color On Click
+if (localStorage.getItem("color") !== null) {
+    localStorage.getItem("color");
+    Array.from(document.querySelectorAll(".colors-list li")).forEach(function (element) {
+        element.classList.remove("active");
+        if (element.getAttribute("data-value") === localStorage.getItem("color")) {
+            element.classList.add("active");
+        }
+    });
+}
+
+// Get Calculator element
+var calculator = document.querySelector(".calculator");
+
+// Apply stored color on page load
+if (localStorage.getItem("color") !== null) {
+    calculator.classList.add(localStorage.getItem("color"));
+}
+
+Array.from(document.querySelectorAll(".colors-list li")).forEach(function (element) {
+    element.addEventListener("click", function () {
+        element.classList.add("active");
+        Array.from(
+            element.parentNode.querySelectorAll(
+                "li:not([data-value='" + element.getAttribute("data-value") + "'])"
+            )
+        ).forEach(function (el) {
+            el.classList.remove("active");
+        });
+        var selectedColor = element.getAttribute("data-value");
+        localStorage.setItem("color", selectedColor);
+        calculator.className = "calculator " + selectedColor;
+    });
+});

@@ -10,9 +10,60 @@ body {
     font-family: arial
 }
 
+:root {
+    --calculator-background: #303030;
+    --screen-background: #1c1c1c;
+    --key-background: #404040;
+    --key-hover-background: #585858;
+    --key-active: #262626;
+    --record-background: #ff2e63;
+    --operator-background: #ff9500;
+    --clear-background: #ff3b30;
+    --equal-background: #4cd137;
+    --modal-content: #1c1c1c;
+    --trsition: all .3s
+}
+
+
+.Dark-Gunmetal {
+    --calculator-background: #1a2634;
+    --screen-background: #0f1722;
+    --key-background: #1f2b3a;
+    --key-hover-background: #364f63;
+    --key-active: #1a2634;
+    --record-background: #0e4b86;
+    --operator-background: #3867d6;
+    --clear-background: #1f2b3a;
+    --equal-background: #1f2b3a;
+    --modal-content: #0f1722
+}
+
+.Dark-Gunmetal .screen input {
+    background-color: #1f2b3a;
+    color: #fff
+}
+
+.Hexadecimal {
+    --calculator-background: #3B3E4D;
+    --screen-background: #292C38;
+    --key-background: #484D5A;
+    --key-hover-background: #60657C;
+    --key-active: #21232B;
+    --record-background: #FFC107;
+    --operator-background: #E91E63;
+    --clear-background: red;
+    --equal-background: #4CAF50;
+    --modal-content: #484D5A
+}
+
+.Hexadecimal .screen input {
+    background-color: #484D5A;
+    color: #fff
+}
+
 .calculator {
     width: 300px;
-    background-color: #444;
+    background-color: var(--calculator-background);
     border-radius: 10px;
     margin: 100px auto;
     box-shadow: 0 0 10px #000;
@@ -21,9 +72,48 @@ body {
 
 .screen {
     width: 100%;
-    background-color: #333;
+    background-color: var(--screen-background);
     padding: 10px;
-    text-align: right
+    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    max-height: 40px;
+    overflow: hidden
+}
+
+.screen .colors-list {
+    max-height: 100%;
+    overflow: hidden
+}
+
+.screen .colors-list li {
+    width: 20px;
+    height: 20px;
+    background: #333;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block;
+    border: 2px solid #eee0
+}
+
+.screen.colors-list li.active {
+    border-color: #fff
+}
+
+.screen .colors-list li.active {
+    border-color: #fff
+}
+
+.screen .colors-list li:first-of-type {
+    background: #ff9500
+}
+
+.screen .colors-list li:nth-child(2) {
+    background: #3867d6
+}
+
+.screen .colors-list li:nth-child(3) {
+    background: #E91E63
 }
 
 .keys {
@@ -39,43 +129,40 @@ body {
     height: 50px;
     margin-bottom: 10px;
     font-size: 20px;
-    background-color: #666;
+    background-color: var(--key-background);
     color: #fff;
     border-radius: 5px;
     border: none;
     outline: none;
     cursor: pointer;
-    font-weight: bold
+    font-weight: bold;
+    transition: var(--trsition)
 }
 
 .record {
-    background-color: #4cd137;
+    background-color: var(--record-background);
     font-size: 15px
 }
 
 .operator {
-    background-color: #fff
-}
-
-.operator {
-    background-color: #ff9f1a;
+    background-color: var(--operator-background);
 }
 
 .clear {
-    background-color: #ff6b6b;
+    background-color: var(--clear-background);
 }
 
 .equal {
-    background-color: #4cd137;
+    background-color: var(--equal-background);
 }
 
 .key:hover,
 .record:hover {
-    background-color: #555;
+    background-color: var(--key-hover-background);
 }
 
 .key:active {
-    background-color: #444;
+    background-color: var(--key-active);
 }
 
 .modal {
@@ -92,7 +179,7 @@ body {
 }
 
 .modal-content {
-    background-color: #333;
+    background-color: var(--modal-content);
     margin: auto;
     padding: 30px;
     border: 1px solid #888;
@@ -123,7 +210,8 @@ body {
     position: absolute;
     top: 0;
     right: 3px;
-    color: #fff
+    color: #fff;
+    transition: var(--trsition)
 }
 
 .close:hover,
@@ -152,7 +240,7 @@ body {
 }
 
 #record-list::-webkit-scrollbar-thumb {
-    background-color: #888;
+    background-color: var(--calculator-background);
     border-radius: 10px
 }
 
@@ -162,7 +250,7 @@ body {
 
 
 #record-list li {
-    border-bottom: 1px solid #888;
+    border-bottom: 1px solid var(--calculator-background);
     padding: 10px 0;
     font-size: 15px;
     display: flex;
@@ -181,21 +269,22 @@ body {
 
 #record-list li div span:last-of-type {
     margin-left: 10px;
-    color: #ff6b6b
+    color: var(--clear-background)
 }
 
 #record-list li > button {
-    background-color: #ff6b6b;
+    background-color: var(--clear-background);
     border: none;
     outline: none;
     color: #fff;
     border-radius: 6px;
     padding: 5px 10px;
-    cursor: pointer
+    cursor: pointer;
+    transition: var(--trsition)
 }
 
 #record-list li > button:hover {
-    background-color: #ff6b6ba1
+    background-color: var(--key-hover-background)
 }
 
 .modal-content > div button {
@@ -209,19 +298,24 @@ body {
 
 #clear-record-btn {
     margin-top: 10px;
-    background-color: #ff6b6b
+    background-color: var(--clear-background);
+    transition: var(--trsition)
 }
 
 #clear-record-btn:hover {
-    background-color: #ff6b6b66
+    background-color: var(--key-hover-background)
+}
+
+.modal-content > div button {
+    transition: var(--trsition)
 }
 
 .modal-content > div button:last-of-type {
-    background-color: #4cd137
+    background-color: var(--equal-background)
 }
 
 .modal-content > div button:last-of-type:hover {
-    background-color: #4cd13787
+    background-color: var(--key-hover-background)
 }
 
 .confirm-delete {
@@ -259,16 +353,16 @@ body {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: opacity .3s
+    transition: var(--trsition)
 }
 
 .confirm-delete-message button.confirm-delete-yes {
-    background-color: #ff4136;
+    background-color: var(--clear-background);
     margin-right: 10px;
 }
 
 .confirm-delete-message button.confirm-delete-no {
-    background-color: #2ecc40;
+    background-color: var(--equal-background);
 }
 
 .confirm-delete-message button:hover {
