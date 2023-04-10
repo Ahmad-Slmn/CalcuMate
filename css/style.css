@@ -10,6 +10,74 @@ body {
     font-family: arial
 }
 
+select {
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 8px 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: absolute;
+    top: 0px;
+    transform: scale(0);
+    transition: var(--trsition);
+    cursor: pointer
+}
+
+select.active{
+    top: 40px;
+    transform: scale(1);
+}
+
+select:focus {
+    outline: none;
+    border-color: #6d9bf1;
+    box-shadow: 0 0 4px rgba(109, 155, 241, 0.5);
+}
+
+.setting {
+    display: flex;
+    max-height: 100%;
+}
+
+.setting > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    max-height: 100%;
+    cursor: pointer
+}
+
+.setting li {
+    background-color: #fff;
+    height: 4px;
+    width: 4px;
+    border-radius: 2px;
+    margin: 0 2px
+}
+
+select option {
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #fff;
+}
+
+select option:hover {
+    background-color: #f2f2f2;
+}
+
+select option:checked {
+    background-color: #6d9bf1;
+    color: #fff;
+}
+
+
 :root {
     --calculator-background: #303030;
     --screen-background: #1c1c1c;
@@ -67,7 +135,8 @@ body {
     border-radius: 10px;
     margin: 100px auto;
     box-shadow: 0 0 10px #000;
-    overflow: hidden
+    overflow: hidden;
+    position: relative
 }
 
 .screen {

@@ -4,6 +4,40 @@ const screen = document.getElementById('screen');
 // Get all elements with the "key" class and store them in a NodeList
 const keys = document.querySelectorAll('.key');
 
+document.querySelector(".setting > div").onclick = function () {
+    document.getElementById("sound-control").classList.toggle("active")
+}
+
+let isSoundOn = true; // يشير إلى حالة التحكم في الصوت
+
+function playSound() {
+    if (isSoundOn) {
+        const audio = new Audio('click.wav'); // تحديد مسار ملف الصوت
+        audio.play();
+    }
+}
+
+const soundControl = document.getElementById('sound-control'); // تحديد العنصر select
+soundControl.addEventListener('change', () => {
+    if (soundControl.value === 'Turn on') {
+        isSoundOn = true;
+        localStorage.setItem('isSoundOn', true);
+    } else if (soundControl.value === 'Turn off') {
+        isSoundOn = false;
+        localStorage.setItem('isSoundOn', false);
+    }
+});
+
+// تحقق من وجود قيمة للتحكم في الصوت في localStorage واستخدمها
+const storedSoundSetting = localStorage.getItem('isSoundOn');
+if (storedSoundSetting !== null) {
+    isSoundOn = JSON.parse(storedSoundSetting);
+    if (!isSoundOn) {
+        soundControl.value = 'Turn off';
+    }
+}
+
+
 // Declare an array to store operations and try to load previous data from localStorage
 let operations = [];
 if (localStorage.getItem("operations")) {
@@ -17,6 +51,8 @@ let timer = null;
 keys.forEach(key => {
     // Add a mousedown event listener to the key
     key.addEventListener('mousedown', () => {
+        // Call the function to play sound
+        playSound();
         // Set a timer to execute after 800ms
         timer = setTimeout(() => {
             // If the value of the key is 'clear', clear the screen
@@ -30,7 +66,6 @@ keys.forEach(key => {
     key.addEventListener('mouseup', () => {
         // Clear the timer set by the mousedown event listener
         clearTimeout(timer);
-
 
         // Get the value of the key
         const value = key.getAttribute('value');
