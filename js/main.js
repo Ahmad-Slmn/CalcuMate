@@ -4,40 +4,6 @@ const screen = document.getElementById('screen');
 // Get all elements with the "key" class and store them in a NodeList
 const keys = document.querySelectorAll('.key');
 
-document.querySelector(".setting > div").onclick = function () {
-    document.getElementById("sound-control").classList.toggle("active")
-}
-
-let isSoundOn = true; // يشير إلى حالة التحكم في الصوت
-
-function playSound() {
-    if (isSoundOn) {
-        const audio = new Audio('click.wav'); // تحديد مسار ملف الصوت
-        audio.play();
-    }
-}
-
-const soundControl = document.getElementById('sound-control'); // تحديد العنصر select
-soundControl.addEventListener('change', () => {
-    if (soundControl.value === 'Turn on') {
-        isSoundOn = true;
-        localStorage.setItem('isSoundOn', true);
-    } else if (soundControl.value === 'Turn off') {
-        isSoundOn = false;
-        localStorage.setItem('isSoundOn', false);
-    }
-});
-
-// تحقق من وجود قيمة للتحكم في الصوت في localStorage واستخدمها
-const storedSoundSetting = localStorage.getItem('isSoundOn');
-if (storedSoundSetting !== null) {
-    isSoundOn = JSON.parse(storedSoundSetting);
-    if (!isSoundOn) {
-        soundControl.value = 'Turn off';
-    }
-}
-
-
 // Declare an array to store operations and try to load previous data from localStorage
 let operations = [];
 if (localStorage.getItem("operations")) {
@@ -248,6 +214,11 @@ copyBtn.onclick = function () {
     }
 }
 
+document.querySelector(".screen ul .box").onclick = function () {
+
+    document.querySelector(".settings-box").classList.toggle("show");
+}
+
 // Change Theme Color On Click
 if (localStorage.getItem("color") !== null) {
     localStorage.getItem("color");
@@ -258,7 +229,6 @@ if (localStorage.getItem("color") !== null) {
         }
     });
 }
-
 // Get Calculator element
 var calculator = document.querySelector(".calculator");
 
@@ -269,6 +239,7 @@ if (localStorage.getItem("color") !== null) {
 
 Array.from(document.querySelectorAll(".colors-list li")).forEach(function (element) {
     element.addEventListener("click", function () {
+        document.querySelector(".settings-box").classList.toggle("show");
         element.classList.add("active");
         Array.from(
             element.parentNode.querySelectorAll(
@@ -282,3 +253,54 @@ Array.from(document.querySelectorAll(".colors-list li")).forEach(function (eleme
         calculator.className = "calculator " + selectedColor;
     });
 });
+
+
+let isSoundOn = false;
+
+function playSound() {
+    if (isSoundOn) {
+        const audio = new Audio('click.wav');
+        audio.play();
+    }
+}
+
+const soundControl = document.querySelector('.sound-option');
+soundControl.addEventListener('click', (event) => {
+    document.querySelector(".settings-box").classList.toggle("show");
+    const target = event.target;
+    if (target.dataset.value === 'yes') {
+        isSoundOn = true;
+        localStorage.setItem('isSoundOn', true);
+        target.classList.add('active');
+        target.nextElementSibling.classList.remove('active');
+    } else if (target.dataset.value === 'no') {
+        isSoundOn = false;
+        localStorage.setItem('isSoundOn', false);
+        target.classList.add('active');
+        target.previousElementSibling.classList.remove('active');
+    }
+});
+
+const storedSoundSetting = localStorage.getItem('isSoundOn');
+if (storedSoundSetting !== null) {
+    isSoundOn = JSON.parse(storedSoundSetting);
+    const yesOption = document.querySelector('.sound-option .yes');
+    const noOption = document.querySelector('.sound-option .no');
+    if (!isSoundOn) {
+        noOption.classList.add('active');
+        yesOption.classList.remove('active');
+    } else {
+        yesOption.classList.add('active');
+        noOption.classList.remove('active');
+    }
+}
+
+// Clear The Localstorage
+document.querySelector(".reset-options").onclick = function () {
+
+    document.querySelector(".settings-box").classList.toggle("show");
+
+    localStorage.clear();
+
+    window.location.reload()
+}

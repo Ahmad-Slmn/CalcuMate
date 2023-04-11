@@ -10,74 +10,6 @@ body {
     font-family: arial
 }
 
-select {
-    font-size: 16px;
-    font-family: Arial, sans-serif;
-    color: #333;
-    padding: 8px 16px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    position: absolute;
-    top: 0px;
-    transform: scale(0);
-    transition: var(--trsition);
-    cursor: pointer
-}
-
-select.active{
-    top: 40px;
-    transform: scale(1);
-}
-
-select:focus {
-    outline: none;
-    border-color: #6d9bf1;
-    box-shadow: 0 0 4px rgba(109, 155, 241, 0.5);
-}
-
-.setting {
-    display: flex;
-    max-height: 100%;
-}
-
-.setting > div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    max-height: 100%;
-    cursor: pointer
-}
-
-.setting li {
-    background-color: #fff;
-    height: 4px;
-    width: 4px;
-    border-radius: 2px;
-    margin: 0 2px
-}
-
-select option {
-    font-size: 16px;
-    font-family: Arial, sans-serif;
-    color: #333;
-    background-color: #fff;
-}
-
-select option:hover {
-    background-color: #f2f2f2;
-}
-
-select option:checked {
-    background-color: #6d9bf1;
-    color: #fff;
-}
-
-
 :root {
     --calculator-background: #303030;
     --screen-background: #1c1c1c;
@@ -139,6 +71,106 @@ select option:checked {
     position: relative
 }
 
+/* Strat Setting box */
+.settings-box {
+    position: fixed;
+    top: 0;
+    left: -200px;
+    background: var(--calculator-background);
+    width: 200px;
+    z-index: 999;
+    min-height: 100vh;
+    transition: var(--trsition)
+}
+
+.settings-box.show {
+    left: 0
+}
+
+.settings-box .option-box {
+    margin-bottom: 10px;
+    background: #ddd;
+    text-align: center
+}
+
+.settings-box .settings h4 {
+    color: #666;
+    font-size: 14px
+}
+
+
+.settings-box .settings .colors-list {
+    margin: 10px 0 0
+}
+
+.settings-box .settings .colors-list li {
+    width: 24px;
+    height: 24px;
+    background: #333;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block;
+    border: 3px solid #eee0
+}
+
+.settings-box .settings .colors-list li.active {
+    border-color: #fff
+}
+
+.settings-box .settings .colors-list li:first-of-type {
+    background-color: #ff9500
+}
+
+.settings-box .settings .colors-list li:nth-child(2) {
+    background-color: #3867d6
+}
+
+.settings-box .settings .colors-list li:nth-child(3) {
+    background-color: #E91E63
+}
+
+.settings-box .yes,
+.settings-box .no {
+    width: 60px;
+    background: var(--operator-background);
+    color: #fff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 20px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--trsition);
+    opacity: .5
+}
+
+.settings-box span.active,
+.settings-box span:hover {
+    opacity: 1
+}
+
+.settings-box .reset-options {
+    background: var(--clear-background);
+    width: 100%;
+    margin: 10px auto;
+    display: block;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: var(--trsition)
+}
+
+.settings-box .reset-options:hover {
+    opacity: .5
+}
+
+/* End Setting box */
+
 .screen {
     width: 100%;
     background-color: var(--screen-background);
@@ -150,39 +182,26 @@ select option:checked {
     overflow: hidden
 }
 
-.screen .colors-list {
+.screen ul {
+    display: flex;
     max-height: 100%;
-    overflow: hidden
 }
 
-.screen .colors-list li {
-    width: 20px;
-    height: 20px;
-    background: #333;
-    border-radius: 50%;
-    cursor: pointer;
-    display: inline-block;
-    border: 2px solid #eee0
+.screen ul > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    max-height: 100%;
+    cursor: pointer
 }
 
-.screen.colors-list li.active {
-    border-color: #fff
-}
-
-.screen .colors-list li.active {
-    border-color: #fff
-}
-
-.screen .colors-list li:first-of-type {
-    background: #ff9500
-}
-
-.screen .colors-list li:nth-child(2) {
-    background: #3867d6
-}
-
-.screen .colors-list li:nth-child(3) {
-    background: #E91E63
+.screen ul > div li {
+    background-color: #fff;
+    height: 4px;
+    width: 4px;
+    border-radius: 2px;
+    margin: 0 2px
 }
 
 .keys {

@@ -12,10 +12,29 @@
 
 <body>
     <div class="calculator">
-        <select id="sound-control">
-            <option value="Turn on">Turn on</option>
-            <option value="Turn off">Turn off</option>
-        </select>
+        <!-- Start Settings Box -->
+        <div class="settings-box">
+            <div class="settings">
+                <div class="option-box">
+                    <h4>Change style</h4>
+                    <ul class="colors-list">
+                        <li data-value="Main-color" class="active"></li>
+                        <li data-value="Dark-Gunmetal"></li>
+                        <li data-value="Hexadecimal"></li>
+                    </ul>
+                </div>
+
+                <div class="option-box">
+                    <h4>Play click sound</h4>
+                    <div class="sound-option">
+                        <span class="yes" data-value="yes">Yes</span>
+                        <span class="no active" data-value="no">No</span>
+                    </div>
+                </div>
+                <button class="reset-options">Reset Options</button>
+            </div>
+        </div>
+        <!-- End Settings Box -->
         <div class="screen">
             <ul class="setting">
                 <div class="box">
@@ -23,12 +42,6 @@
                     <li></li>
                     <li></li>
                 </div>
-            </ul>
-
-            <ul class="colors-list">
-                <li data-value="Main-color" class="active"></li>
-                <li data-value="Dark-Gunmetal"></li>
-                <li data-value="Hexadecimal"></li>
             </ul>
             <input type="text" id="screen" disabled>
         </div>
