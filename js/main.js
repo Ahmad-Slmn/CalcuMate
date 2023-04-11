@@ -322,6 +322,65 @@ if (storedSoundSetting !== null) {
     }
 }
 
+let isVibrationOn = false;
+
+function vibrate() {
+    // If vibration is on, vibrate the device for 50 milliseconds
+    if (isVibrationOn && 'vibrate' in window.navigator) {
+        window.navigator.vibrate(50);
+    }
+}
+
+// Add click event listener to the vibration control element
+const vibrationControl = document.querySelector('.vibration-option');
+vibrationControl.addEventListener('click', (event) => {
+    const target = event.target;
+    // If "yes" button is clicked, set isVibrationOn to true and update localStorage and button classes
+    if (target.dataset.value === 'yes') {
+        isVibrationOn = true;
+        localStorage.setItem('isVibrationOn', true);
+        target.classList.add('active');
+        target.nextElementSibling.classList.remove('active');
+    }
+    // If "no" button is clicked, set isVibrationOn to false and update localStorage and button classes
+    else if (target.dataset.value === 'no') {
+        isVibrationOn = false;
+        localStorage.setItem('isVibrationOn', false);
+        target.classList.add('active');
+        target.previousElementSibling.classList.remove('active');
+    }
+});
+
+function evaluate() {
+    const expression = expressionDisplay.textContent;
+    try {
+        const result = math.evaluate(expression);
+        if (isNaN(result)) {
+            resultDisplay.textContent = 'Error';
+        } else {
+            resultDisplay.textContent = result;
+            vibrate();
+        }
+    } catch (error) {
+        resultDisplay.textContent = 'Error';
+    }
+}
+
+// Check if vibration setting is stored in localStorage and update isVibrationOn variable and button classes accordingly
+const storedVibrationSetting = localStorage.getItem('isVibrationOn');
+if (storedVibrationSetting !== null) {
+    isVibrationOn = JSON.parse(storedVibrationSetting);
+    const yesOption = document.querySelector('.vibration-option .yes');
+    const noOption = document.querySelector('.vibration-option .no');
+    if (!isVibrationOn) {
+        noOption.classList.add('active');
+        yesOption.classList.remove('active');
+    } else {
+        yesOption.classList.add('active');
+        noOption.classList.remove('active');
+    }
+}
+
 // Attach a click event listener to the "reset-options" element
 document.querySelector(".reset-options").onclick = function () {
 
@@ -329,7 +388,7 @@ document.querySelector(".reset-options").onclick = function () {
     document.querySelector(".settings-box").classList.toggle("show");
 
     // Remove the "color" and "isSoundOn" items from local storage
-    ["color", "isSoundOn"].forEach(function (key) {
+    ["color", "isSoundOn", "isVibrationOn"].forEach(function (key) {
         localStorage.removeItem(key);
     });
 
