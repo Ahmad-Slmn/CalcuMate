@@ -19,6 +19,7 @@ keys.forEach(key => {
     key.addEventListener('mousedown', () => {
         // Call the function to play sound
         playSound();
+        vibrate()
         // Set a timer to execute after 800ms
         timer = setTimeout(() => {
             // If the value of the key is 'clear', clear the screen
