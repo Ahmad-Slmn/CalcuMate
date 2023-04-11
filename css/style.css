@@ -179,6 +179,7 @@ body {
     padding: 10px;
     text-align: right;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     max-height: 40px;
     overflow: hidden
@@ -186,24 +187,20 @@ body {
 
 .screen ul {
     display: flex;
-    max-height: 100%;
-}
-
-.screen ul > div {
-    display: flex;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
+    height: 14px;
     list-style: none;
-    max-height: 100%;
-    cursor: pointer
+    grid-gap: 3px
 }
 
-.screen ul > div li {
+.screen ul li {
     background-color: #fff;
     height: 4px;
     width: 4px;
     border-radius: 2px;
-    margin: 0 2px
+    font-weight: bold;
+    cursor: pointer
 }
 
 .keys {

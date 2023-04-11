@@ -214,14 +214,14 @@ copyBtn.onclick = function () {
     }
 }
 
-document.querySelector(".screen ul .box").onclick = function () {
-    document.querySelector(".settings-box").classList.toggle("show");
-};
+document.querySelectorAll('.screen ul li').forEach(function (element) {
+    element.onclick = function () {
+        document.querySelector(".settings-box").classList.toggle("show");
+    };
+});
 
-// حدث النقر لـ body
 document.body.addEventListener('click', function (event) {
-    // التحقق من عدم النقر على عنصر ".settings-box" أو أي عنصر آخر يحتوي على الفئة "box"
-    if (!event.target.matches('.settings-box') && !event.target.matches('.screen ul .box')) {
+    if (!event.target.matches('.settings-box') && !event.target.matches('.screen ul li')) {
         document.querySelector('.settings-box').classList.remove('show');
     }
 });
@@ -244,7 +244,6 @@ var calculator = document.querySelector(".calculator");
 if (localStorage.getItem("color") !== null) {
     calculator.classList.add(localStorage.getItem("color"));
 }
-
 
 Array.from(document.querySelectorAll(".colors-list li")).forEach(function (element) {
     element.addEventListener("click", function () {
