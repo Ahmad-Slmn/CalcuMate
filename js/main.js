@@ -215,9 +215,17 @@ copyBtn.onclick = function () {
 }
 
 document.querySelector(".screen ul .box").onclick = function () {
-
     document.querySelector(".settings-box").classList.toggle("show");
-}
+};
+
+// حدث النقر لـ body
+document.body.addEventListener('click', function (event) {
+    // التحقق من عدم النقر على عنصر ".settings-box" أو أي عنصر آخر يحتوي على الفئة "box"
+    if (!event.target.matches('.settings-box') && !event.target.matches('.screen ul .box')) {
+        document.querySelector('.settings-box').classList.remove('show');
+    }
+});
+
 
 // Change Theme Color On Click
 if (localStorage.getItem("color") !== null) {
@@ -237,9 +245,9 @@ if (localStorage.getItem("color") !== null) {
     calculator.classList.add(localStorage.getItem("color"));
 }
 
+
 Array.from(document.querySelectorAll(".colors-list li")).forEach(function (element) {
     element.addEventListener("click", function () {
-        document.querySelector(".settings-box").classList.toggle("show");
         element.classList.add("active");
         Array.from(
             element.parentNode.querySelectorAll(
@@ -266,7 +274,6 @@ function playSound() {
 
 const soundControl = document.querySelector('.sound-option');
 soundControl.addEventListener('click', (event) => {
-    document.querySelector(".settings-box").classList.toggle("show");
     const target = event.target;
     if (target.dataset.value === 'yes') {
         isSoundOn = true;

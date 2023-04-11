@@ -104,17 +104,19 @@ body {
 }
 
 .settings-box .settings .colors-list li {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background: #333;
     border-radius: 50%;
     cursor: pointer;
-    display: inline-block;
-    border: 3px solid #eee0
+    display: inline-block
 }
 
 .settings-box .settings .colors-list li.active {
-    border-color: #fff
+    border: 2px solid #fff;
+    padding: 3px;
+    width: 22px;
+    height: 22px
 }
 
 .settings-box .settings .colors-list li:first-of-type {
