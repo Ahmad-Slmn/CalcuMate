@@ -19,6 +19,7 @@ keys.forEach(key => {
     key.addEventListener('mousedown', () => {
         // Call the function to play sound
         playSound();
+        // Call the function to play vibration
         vibrate();
         // Set a timer to execute after 800ms
         timer = setTimeout(() => {

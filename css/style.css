@@ -65,6 +65,25 @@ body {
     color: #fff
 }
 
+.Dark-Slate-Blue {
+    --body-background: #1e1f2a;
+    --calculator-background: #242634;
+    --screen-background: #313342;
+    --key-background: #3e405b;
+    --key-hover-background: #50537c;
+    --key-active: #2f2f3e;
+    --record-background: #5e72e4;
+    --operator-background: #ff6348;
+    --clear-background: #f53b57;
+    --equal-background: #1abc9c;
+    --modal-content: #2d2d44;
+}
+
+.Dark-Slate-Blue .screen input {
+    background-color: #484D5A;
+    color: #fff
+}
+
 .calculator {
     width: 300px;
     background-color: var(--calculator-background);
@@ -89,6 +108,11 @@ body {
 
 .settings-box.show {
     left: 0
+}
+
+.settings-box h2 {
+    text-align: center;
+    color: #fff
 }
 
 .settings-box .option-box {
@@ -134,6 +158,10 @@ body {
 
 .settings-box .settings .colors-list li:nth-child(3) {
     background-color: #E91E63
+}
+
+.settings-box .settings .colors-list li:nth-child(4) {
+    background-color: #1e1f2a
 }
 
 .settings-box .yes,
@@ -205,6 +233,10 @@ body {
     border-radius: 2px;
     font-weight: bold;
     cursor: pointer
+}
+
+.screen input {
+    letter-spacing: 2px
 }
 
 .keys {
