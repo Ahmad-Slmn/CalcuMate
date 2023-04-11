@@ -187,8 +187,7 @@ function checkrecord() {
 }
 
 // Call check Record function to update the display
-setInterval(checkrecord, );
-
+setInterval(checkrecord);
 
 // Copy record to clipboard when copy button is clicked
 const copyBtn = document.getElementById('copy-btn');
@@ -220,7 +219,7 @@ document.querySelectorAll('.screen ul li').forEach(function (element) {
     };
 });
 
-document.body.addEventListener('click', function (event) {
+document.addEventListener('click', function (event) {
     if (!event.target.matches('.settings-box') && !event.target.matches('.screen ul li')) {
         document.querySelector('.settings-box').classList.remove('show');
     }
