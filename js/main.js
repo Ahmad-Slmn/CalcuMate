@@ -192,8 +192,10 @@ setInterval(checkrecord);
 // Copy record to clipboard when copy button is clicked
 const copyBtn = document.getElementById('copy-btn');
 
+// When the copy button is clicked, copy the operations to clipboard
 copyBtn.onclick = function () {
     if (operations.length > 0) {
+        // Map each operation to a string and filter out any undefined values
         const operationsToCopy = operations.map(operation => {
             if (typeof operation === 'string') {
                 const operationElem = document.createElement('div');
@@ -201,9 +203,13 @@ copyBtn.onclick = function () {
                 return operationElem.innerText;
             }
         }).filter(text => text !== undefined);
+
+        // Create a textarea element, set its value to the operations to copy, and add it to the DOM
         const textArea = document.createElement('textarea');
         textArea.value = operationsToCopy.join('\n') + '\n';
         document.body.appendChild(textArea);
+
+        // Select the textarea's text and copy it to clipboard, then remove the textarea and show an alert
         textArea.select();
         document.execCommand('copy');
         document.body.removeChild(textArea);
@@ -213,12 +219,20 @@ copyBtn.onclick = function () {
     }
 }
 
+// Set the width of the reset-options button equal to the width of the option-box element
+
+let optionBoxWidth = document.querySelector('.settings-box .option-box').offsetWidth;
+
+document.querySelector('.settings-box .reset-options').style.width = optionBoxWidth + "px";
+
+// When an li element in the .screen ul is clicked, toggle the .settings-box element's "show" class
 document.querySelectorAll('.screen ul li').forEach(function (element) {
     element.onclick = function () {
         document.querySelector(".settings-box").classList.toggle("show");
     };
 });
 
+// When any element is clicked outside of the .settings-box and .screen ul li elements, remove the "show" class from the .settings-box element
 document.addEventListener('click', function (event) {
     if (!event.target.matches('.settings-box') && !event.target.matches('.screen ul li')) {
         document.querySelector('.settings-box').classList.remove('show');
@@ -236,16 +250,16 @@ if (localStorage.getItem("color") !== null) {
         }
     });
 }
-// Get Calculator element
-var calculator = document.querySelector(".calculator");
 
 // Apply stored color on page load
 if (localStorage.getItem("color") !== null) {
-    calculator.classList.add(localStorage.getItem("color"));
+    document.querySelector("body").classList.add(localStorage.getItem("color"));
 }
 
+// Add click event listener to each element in the .colors-list
 Array.from(document.querySelectorAll(".colors-list li")).forEach(function (element) {
     element.addEventListener("click", function () {
+        // Add "active" class to clicked element and remove it from its siblings
         element.classList.add("active");
         Array.from(
             element.parentNode.querySelectorAll(
@@ -254,31 +268,38 @@ Array.from(document.querySelectorAll(".colors-list li")).forEach(function (eleme
         ).forEach(function (el) {
             el.classList.remove("active");
         });
+        // Store selected color in localStorage and set body background color to the selected color
         var selectedColor = element.getAttribute("data-value");
         localStorage.setItem("color", selectedColor);
-        calculator.className = "calculator " + selectedColor;
+        document.querySelector("body").className = selectedColor;
     });
 });
 
-
+// Initialize isSoundOn variable
 let isSoundOn = false;
 
+// Define function to play sound
 function playSound() {
+    // If sound is on, create an audio object and play the "click" sound
     if (isSoundOn) {
         const audio = new Audio('click.wav');
         audio.play();
     }
 }
 
+// Add click event listener to the sound control element
 const soundControl = document.querySelector('.sound-option');
 soundControl.addEventListener('click', (event) => {
     const target = event.target;
+    // If "yes" button is clicked, set isSoundOn to true and update localStorage and button classes
     if (target.dataset.value === 'yes') {
         isSoundOn = true;
         localStorage.setItem('isSoundOn', true);
         target.classList.add('active');
         target.nextElementSibling.classList.remove('active');
-    } else if (target.dataset.value === 'no') {
+    }
+    // If "no" button is clicked, set isSoundOn to false and update localStorage and button classes
+    else if (target.dataset.value === 'no') {
         isSoundOn = false;
         localStorage.setItem('isSoundOn', false);
         target.classList.add('active');
@@ -286,6 +307,7 @@ soundControl.addEventListener('click', (event) => {
     }
 });
 
+// Check if sound setting is stored in localStorage and update isSoundOn variable and button classes accordingly
 const storedSoundSetting = localStorage.getItem('isSoundOn');
 if (storedSoundSetting !== null) {
     isSoundOn = JSON.parse(storedSoundSetting);
@@ -300,15 +322,17 @@ if (storedSoundSetting !== null) {
     }
 }
 
-// Clear The Localstorage
+// Attach a click event listener to the "reset-options" element
 document.querySelector(".reset-options").onclick = function () {
 
+    // Hide the settings box when the reset button is clicked
     document.querySelector(".settings-box").classList.toggle("show");
 
+    // Remove the "color" and "isSoundOn" items from local storage
     ["color", "isSoundOn"].forEach(function (key) {
         localStorage.removeItem(key);
     });
 
-
+    // Reload the page to apply the default settings
     window.location.reload()
 }

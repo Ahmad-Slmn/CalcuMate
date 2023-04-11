@@ -7,10 +7,12 @@
 
 body {
     overflow: hidden;
-    font-family: arial
+    font-family: arial;
+    background-color: var(--body-background)
 }
 
 :root {
+    --body-background: #fff;
     --calculator-background: #303030;
     --screen-background: #1c1c1c;
     --key-background: #404040;
@@ -26,6 +28,7 @@ body {
 
 
 .Dark-Gunmetal {
+    --body-background: #1a2634;
     --calculator-background: #1a2634;
     --screen-background: #0f1722;
     --key-background: #1f2b3a;
@@ -44,6 +47,7 @@ body {
 }
 
 .Hexadecimal {
+    --body-background: #3B3E4D;
     --calculator-background: #3B3E4D;
     --screen-background: #292C38;
     --key-background: #484D5A;
@@ -76,7 +80,7 @@ body {
     position: fixed;
     top: 0;
     left: -200px;
-    background: var(--calculator-background);
+    background: var(--operator-background);
     width: 200px;
     z-index: 999;
     min-height: 100vh;
@@ -156,7 +160,6 @@ body {
 
 .settings-box .reset-options {
     background: var(--clear-background);
-    width: 180px;
     margin-left: 10px;
     display: block;
     color: #fff;
