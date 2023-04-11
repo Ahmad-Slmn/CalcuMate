@@ -306,7 +306,10 @@ document.querySelector(".reset-options").onclick = function () {
 
     document.querySelector(".settings-box").classList.toggle("show");
 
-    localStorage.clear();
+    ["color", "isSoundOn"].forEach(function (key) {
+        localStorage.removeItem(key);
+    });
+
 
     window.location.reload()
 }

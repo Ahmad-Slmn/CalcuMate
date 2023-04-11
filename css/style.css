@@ -155,8 +155,8 @@ body {
 
 .settings-box .reset-options {
     background: var(--clear-background);
-    width: 100%;
-    margin: 10px auto;
+    width: 95%;
+    margin: 10px 4px;
     display: block;
     color: #fff;
     font-weight: bold;
@@ -164,7 +164,8 @@ body {
     border: none;
     cursor: pointer;
     border-radius: 6px;
-    transition: var(--trsition)
+    transition: var(--trsition);
+    border: 1px solid #fff
 }
 
 .settings-box .reset-options:hover {
