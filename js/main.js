@@ -19,7 +19,7 @@ keys.forEach(key => {
     key.addEventListener('mousedown', () => {
         // Call the function to play sound
         playSound();
-        vibrate()
+        vibrate();
         // Set a timer to execute after 800ms
         timer = setTimeout(() => {
             // If the value of the key is 'clear', clear the screen
@@ -331,6 +331,7 @@ function vibrate() {
         window.navigator.vibrate(50);
     }
 }
+
 
 // Add click event listener to the vibration control element
 const vibrationControl = document.querySelector('.vibration-option');
