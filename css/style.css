@@ -164,8 +164,8 @@ body {
     background-color: #1e1f2a
 }
 
-.settings-box .yes,
-.settings-box .no {
+
+.settings .option-box span {
     width: 60px;
     background: var(--operator-background);
     color: #fff;
@@ -173,12 +173,16 @@ body {
     margin-bottom: 10px;
     display: inline-block;
     font-size: 12px;
-    padding: 4px 20px;
+    padding: 4px 0;
     font-weight: bold;
     border-radius: 6px;
     cursor: pointer;
     transition: var(--trsition);
     opacity: .5
+}
+
+.settings-box span.active {
+    border: 2px solid #fff
 }
 
 .settings-box span.active,
@@ -260,6 +264,11 @@ body {
     cursor: pointer;
     font-weight: bold;
     transition: var(--trsition)
+}
+
+.key.memory {
+    transition: opacity 0.5s ease-in-out;
+    display: none;
 }
 
 .record {

@@ -29,16 +29,24 @@
                 <div class="option-box">
                     <h4>Play click sound</h4>
                     <div class="sound-option">
-                        <span class="yes" data-value="yes">Yes</span>
-                        <span class="no active" data-value="no">No</span>
+                        <span data-value="yes">Yes</span>
+                        <span class="active" data-value="no">No</span>
                     </div>
                 </div>
 
                 <div class="option-box">
-                    <h4>Turn on vibration</h4>
+                    <h4>vibration on touch</h4>
                     <div class="vibration-option">
-                        <span class="yes" data-value="yes">Yes</span>
-                        <span class="no active" data-value="no">No</span>
+                        <span data-value="yes">Yes</span>
+                        <span class="active" data-value="no">No</span>
+                    </div>
+                </div>
+
+                <div class="option-box">
+                    <h4>memory buttons</h4>
+                    <div class="memory-buttons-option">
+                        <span data-value="show">show</span>
+                        <span class="active" data-value="hidden">hidden</span>
                     </div>
                 </div>
                 <button class="reset-options">Reset Options</button>
@@ -52,9 +60,14 @@
                 <li></li>
                 <li></li>
             </ul>
-            <input type="text" id="screen" disabled>
+            <input type="text" id="screen" disabled="disabled" aria-label="calculator screen" />
         </div>
         <div class="keys">
+            <button class="key memory" value="MR">MR</button>
+            <button class="key memory" value="MC">MC</button>
+            <button class="key memory" value="M+">M+</button>
+            <button class="key memory" value="M-">M-</button>
+
             <button class="key" value="7">7</button>
             <button class="key" value="8">8</button>
             <button class="key" value="9">9</button>

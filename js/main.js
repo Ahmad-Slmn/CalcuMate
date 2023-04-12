@@ -49,6 +49,39 @@ keys.forEach(key => {
             screen.value += value;
         }
 
+        // If the value is 'MR', retrieve the value from localStorage and display it on the screen
+        else if (value === 'MR') {
+            const memoryValue = localStorage.getItem('memory');
+            if (memoryValue) {
+                screen.value += memoryValue;
+            }
+        }
+
+        // If the value is 'MC', clear the memory in localStorage
+        else if (value === 'MC') {
+            localStorage.removeItem('memory');
+        }
+
+        // If the value is 'M+', add the screen value to the memory in localStorage
+        else if (value === 'M+') {
+            const screenValue = screen.value.trim();
+            if (screenValue) {
+                const memoryValue = localStorage.getItem('memory');
+                const newValue = memoryValue ? parseFloat(memoryValue) + parseFloat(screenValue) : parseFloat(screenValue);
+                localStorage.setItem('memory', newValue.toString());
+            }
+        }
+
+        // If the value is 'M-', subtract the screen value from the memory in localStorage
+        else if (value === 'M-') {
+            const screenValue = screen.value.trim();
+            if (screenValue) {
+                const memoryValue = localStorage.getItem('memory');
+                const newValue = memoryValue ? parseFloat(memoryValue) - parseFloat(screenValue) : -parseFloat(screenValue);
+                localStorage.setItem('memory', newValue.toString());
+            }
+        }
+
         // If the value is an operator, add it to the screen if the last character is a number
         else if (value === '+' || value === '-' || value === '×' || value === '÷' || value === '%') {
             if (screen.value.length > 0 && (!isNaN(screen.value.slice(-1)) || screen.value.slice(-1) === '%')) {
@@ -106,12 +139,27 @@ keys.forEach(key => {
     });
 });
 
+function evaluate() {
+    const expression = expressionDisplay.textContent;
+    try {
+        const result = math.evaluate(expression);
+        if (isNaN(result)) {
+            resultDisplay.textContent = 'Error';
+        } else {
+            resultDisplay.textContent = result;
+            vibrate();
+        }
+    } catch (error) {
+        resultDisplay.textContent = 'Error';
+    }
+}
+
 // Select DOM elements
 const recordBtn = document.getElementById('record-btn');
 const modal = document.getElementById('record-modal');
 const modalClose = document.getElementsByClassName('close')[0];
 const recordList = document.getElementById('record-list');
-const clearrecordBtn = document.getElementById('clear-record-btn')
+const clearRecordBtn = document.getElementById('clear-record-btn')
 
 
 // Show record modal when record button is clicked
@@ -141,7 +189,7 @@ modalClose.onclick = function () {
 }
 
 // Clear record and remove from local storage when clear record button is clicked
-clearrecordBtn.addEventListener('click', function () {
+clearRecordBtn.addEventListener('click', function () {
 
     if (operations.length === 0) {
         alert("There is no record to delete!");
@@ -277,51 +325,49 @@ Array.from(document.querySelectorAll(".colors-list li")).forEach(function (eleme
     });
 });
 
-// Initialize isSoundOn variable
+// Initialize sound settings to off by default
 let isSoundOn = false;
 
-// Define function to play sound
+// Get the sound control element from the DOM
+const soundControl = document.querySelector('.sound-option');
+
+// Function to play the sound when triggered
 function playSound() {
-    // If sound is on, create an audio object and play the "click" sound
-    if (isSoundOn) {
-        const audio = new Audio('click.wav');
-        audio.play();
-    }
+    // If sound is on, play the click sound
+    if (isSoundOn) new Audio('click.wav').play();
 }
 
-// Add click event listener to the sound control element
-const soundControl = document.querySelector('.sound-option');
-soundControl.addEventListener('click', (event) => {
-    const target = event.target;
-    // If "yes" button is clicked, set isSoundOn to true and update localStorage and button classes
-    if (target.dataset.value === 'yes') {
-        isSoundOn = true;
-        localStorage.setItem('isSoundOn', true);
-        target.classList.add('active');
-        target.nextElementSibling.classList.remove('active');
-    }
-    // If "no" button is clicked, set isSoundOn to false and update localStorage and button classes
-    else if (target.dataset.value === 'no') {
-        isSoundOn = false;
-        localStorage.setItem('isSoundOn', false);
-        target.classList.add('active');
-        target.previousElementSibling.classList.remove('active');
+// Function to toggle sound on and off and update the UI
+function toggleSound(target, value) {
+    // Update the sound setting variable and local storage
+    isSoundOn = value;
+    localStorage.setItem('isSoundOn', value);
+    // Add the 'active' class to the clicked button and remove it from the other button
+    target.classList.add('active');
+    target.parentElement.querySelector(`[data-value="${!value ? 'yes' : 'no'}"]`).classList.remove('active');
+}
+
+// Add a click event listener to the sound control element
+soundControl.addEventListener('click', ({
+    target
+}) => {
+    // If a 'yes' or 'no' button is clicked, toggle the sound setting
+    if (['yes', 'no'].includes(target.dataset.value)) {
+        toggleSound(target, target.dataset.value === 'yes');
     }
 });
 
-// Check if sound setting is stored in localStorage and update isSoundOn variable and button classes accordingly
+// Check local storage for a saved sound setting and update the UI accordingly
 const storedSoundSetting = localStorage.getItem('isSoundOn');
 if (storedSoundSetting !== null) {
+    // Update the sound setting variable with the saved setting
     isSoundOn = JSON.parse(storedSoundSetting);
-    const yesOption = document.querySelector('.sound-option .yes');
-    const noOption = document.querySelector('.sound-option .no');
-    if (!isSoundOn) {
-        noOption.classList.add('active');
-        yesOption.classList.remove('active');
-    } else {
-        yesOption.classList.add('active');
-        noOption.classList.remove('active');
-    }
+    // Get references to the 'yes' and 'no' buttons
+    const yesOption = soundControl.querySelector('span[data-value="yes"]');
+    const noOption = soundControl.querySelector('span[data-value="no"]');
+    // Add or remove the 'active' class from the buttons based on the saved sound setting
+    yesOption.classList.toggle('active', isSoundOn);
+    noOption.classList.toggle('active', !isSoundOn);
 }
 
 let isVibrationOn = false;
@@ -332,7 +378,6 @@ function vibrate() {
         window.navigator.vibrate(50);
     }
 }
-
 
 // Add click event listener to the vibration control element
 const vibrationControl = document.querySelector('.vibration-option');
@@ -354,35 +399,84 @@ vibrationControl.addEventListener('click', (event) => {
     }
 });
 
-function evaluate() {
-    const expression = expressionDisplay.textContent;
-    try {
-        const result = math.evaluate(expression);
-        if (isNaN(result)) {
-            resultDisplay.textContent = 'Error';
-        } else {
-            resultDisplay.textContent = result;
-            vibrate();
+// Get all buttons with data-value="show" or data-value="hidden"
+const buttons = document.querySelectorAll('[data-value="show"], [data-value="hidden"]');
+
+// Get the value of the active button from localStorage
+const activeButtonValue = localStorage.getItem('activeButtonValue');
+
+// If there is an active button value in localStorage
+if (activeButtonValue) {
+    // Find the active button by its data-value attribute
+    const activeButton = document.querySelector(`[data-value="${activeButtonValue}"]`);
+
+    // If the active button exists and is not already active
+    if (activeButton && !activeButton.classList.contains('active')) {
+        // Remove the active class from all buttons
+        buttons.forEach(button => button.classList.remove('active'));
+
+        // Add the active class to the active button
+        activeButton.classList.add('active');
+
+        // Get all elements with the class "memory"
+        const menu = document.querySelectorAll('.memory');
+
+        // Show or hide the "memory" elements based on the data-value of the active button
+        if (activeButton.dataset.value === 'show') {
+            menu.forEach(item => {
+                item.style.opacity = '1';
+                item.style.display = 'block';
+            });
+        } else if (activeButton.dataset.value === 'hidden') {
+            menu.forEach(item => {
+                item.style.opacity = '0';
+                item.style.display = 'none';
+            });
         }
-    } catch (error) {
-        resultDisplay.textContent = 'Error';
     }
 }
 
-// Check if vibration setting is stored in localStorage and update isVibrationOn variable and button classes accordingly
-const storedVibrationSetting = localStorage.getItem('isVibrationOn');
-if (storedVibrationSetting !== null) {
-    isVibrationOn = JSON.parse(storedVibrationSetting);
-    const yesOption = document.querySelector('.vibration-option .yes');
-    const noOption = document.querySelector('.vibration-option .no');
-    if (!isVibrationOn) {
-        noOption.classList.add('active');
-        yesOption.classList.remove('active');
-    } else {
-        yesOption.classList.add('active');
-        noOption.classList.remove('active');
-    }
-}
+// Add a click event listener to each button
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Remove the active class from all buttons
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        // Add the active class to the clicked button
+        button.classList.add('active');
+
+        // Store the data-value of the clicked button in localStorage
+        localStorage.setItem('activeButtonValue', button.dataset.value);
+
+        // Get all elements with the class "memory"
+        const memoryButtons = document.querySelectorAll('.memory');
+
+        // Show or hide the "memoryButtons" elements based on the data-value of the clicked button
+        if (button.dataset.value === 'show') {
+            memoryButtons.forEach(item => {
+                item.style.opacity = '0';
+                item.style.display = 'block';
+                setTimeout(() => {
+                    requestAnimationFrame(() => {
+                        item.style.opacity = '1';
+                    });
+                }, 100);
+            });
+        } else if (button.dataset.value === 'hidden') {
+            memoryButtons.forEach(item => {
+                item.style.opacity = '1';
+                setTimeout(() => {
+                    requestAnimationFrame(() => {
+                        item.style.opacity = '0';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 200);
+                    });
+                });
+            });
+        }
+    });
+});
 
 // Attach a click event listener to the "reset-options" element
 document.querySelector(".reset-options").onclick = function () {
@@ -391,7 +485,7 @@ document.querySelector(".reset-options").onclick = function () {
     document.querySelector(".settings-box").classList.toggle("show");
 
     // Remove the "color" and "isSoundOn" items from local storage
-    ["color", "isSoundOn", "isVibrationOn"].forEach(function (key) {
+    ["color", "isSoundOn", "isVibrationOn", "activeButtonValue"].forEach(function (key) {
         localStorage.removeItem(key);
     });
 
