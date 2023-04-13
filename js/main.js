@@ -1,6 +1,13 @@
 // Get the element with the ID "screen" and store it in a variable
 const screen = document.getElementById('screen');
 
+// Set the Height of the Screen to the Height of the screenBoxHeight
+
+let screenBoxHeight = document.querySelector('.screen').offsetHeight;
+
+screen.style.height = screenBoxHeight + "px";
+
+
 // Get all elements with the "key" class and store them in a NodeList
 const keys = document.querySelectorAll('.key');
 
@@ -12,6 +19,32 @@ if (localStorage.getItem("operations")) {
 
 // Declare a variable to store a timer reference
 let timer = null;
+
+// Function to check if 'memory' is present in localStorage
+// and if 'activeButtonValue' is set to 'show'.
+// If true, display the span element, else hide it.
+function checkLocalStorage() {
+    if (localStorage.getItem('memory') !== null &&
+        localStorage.getItem('activeButtonValue') === 'show') {
+        document.querySelector('.screen > span').style.display = "block";
+    } else {
+        document.querySelector('.screen > span').style.display = "none";
+    }
+}
+
+// Call the function once on page load
+checkLocalStorage();
+
+// Get all elements with class 'memory' and add a click event listener
+// that calls the 'checkLocalStorage' function when clicked.
+const memoryButtons = document.querySelectorAll('.memory');
+memoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Call The Function to check if 'memory' Is Not Empty
+        checkLocalStorage();
+    });
+});
+
 
 // The forEach method is used to apply the click event to each key
 keys.forEach(key => {
@@ -138,21 +171,6 @@ keys.forEach(key => {
         }
     });
 });
-
-function evaluate() {
-    const expression = expressionDisplay.textContent;
-    try {
-        const result = math.evaluate(expression);
-        if (isNaN(result)) {
-            resultDisplay.textContent = 'Error';
-        } else {
-            resultDisplay.textContent = result;
-            vibrate();
-        }
-    } catch (error) {
-        resultDisplay.textContent = 'Error';
-    }
-}
 
 // Select DOM elements
 const recordBtn = document.getElementById('record-btn');
@@ -418,17 +436,14 @@ if (activeButtonValue) {
         // Add the active class to the active button
         activeButton.classList.add('active');
 
-        // Get all elements with the class "memory"
-        const menu = document.querySelectorAll('.memory');
-
         // Show or hide the "memory" elements based on the data-value of the active button
         if (activeButton.dataset.value === 'show') {
-            menu.forEach(item => {
+            memoryButtons.forEach(item => {
                 item.style.opacity = '1';
                 item.style.display = 'block';
             });
         } else if (activeButton.dataset.value === 'hidden') {
-            menu.forEach(item => {
+            memoryButtons.forEach(item => {
                 item.style.opacity = '0';
                 item.style.display = 'none';
             });
@@ -447,9 +462,6 @@ buttons.forEach(button => {
 
         // Store the data-value of the clicked button in localStorage
         localStorage.setItem('activeButtonValue', button.dataset.value);
-
-        // Get all elements with the class "memory"
-        const memoryButtons = document.querySelectorAll('.memory');
 
         // Show or hide the "memoryButtons" elements based on the data-value of the clicked button
         if (button.dataset.value === 'show') {
@@ -475,6 +487,9 @@ buttons.forEach(button => {
                 });
             });
         }
+
+        // Call The Function to check if 'memory' Is Not Empty
+        checkLocalStorage();
     });
 });
 

@@ -18,10 +18,8 @@ body {
     --key-background: #404040;
     --key-hover-background: #585858;
     --key-active: #262626;
-    --record-background: #ff2e63;
     --operator-background: #ff9500;
     --clear-background: #ff3b30;
-    --equal-background: #4cd137;
     --modal-content: #1c1c1c;
     --trsition: all .3s
 }
@@ -34,10 +32,8 @@ body {
     --key-background: #1f2b3a;
     --key-hover-background: #364f63;
     --key-active: #1a2634;
-    --record-background: #0e4b86;
     --operator-background: #3867d6;
     --clear-background: #1f2b3a;
-    --equal-background: #1f2b3a;
     --modal-content: #0f1722
 }
 
@@ -53,16 +49,13 @@ body {
     --key-background: #484D5A;
     --key-hover-background: #60657C;
     --key-active: #21232B;
-    --record-background: #FFC107;
     --operator-background: #E91E63;
     --clear-background: red;
-    --equal-background: #4CAF50;
     --modal-content: #484D5A
 }
 
 .Hexadecimal .screen input {
-    background-color: #484D5A;
-    color: #fff
+    background-color: #484D5A
 }
 
 .Dark-Slate-Blue {
@@ -72,16 +65,13 @@ body {
     --key-background: #3e405b;
     --key-hover-background: #50537c;
     --key-active: #2f2f3e;
-    --record-background: #5e72e4;
     --operator-background: #ff6348;
     --clear-background: #f53b57;
-    --equal-background: #1abc9c;
     --modal-content: #2d2d44;
 }
 
 .Dark-Slate-Blue .screen input {
-    background-color: #484D5A;
-    color: #fff
+    background-color: #484D5A
 }
 
 .calculator {
@@ -113,6 +103,10 @@ body {
 .settings-box h2 {
     text-align: center;
     color: #fff
+}
+
+.settings-box .settings {
+    border-bottom: 1px solid #fff
 }
 
 .settings-box .option-box {
@@ -200,11 +194,32 @@ body {
     cursor: pointer;
     border-radius: 6px;
     transition: var(--trsition);
-    border: 1px solid #fff
+    border: 1px solid #fff;
+    margin-bottom: 10px
 }
 
 .settings-box .reset-options:hover {
     opacity: .5
+}
+
+.others {
+    padding: 20px 10px;
+}
+
+.others h3 {
+    color: #fff
+}
+
+.others a {
+    display: block;
+    margin: 20px 10px;
+    cursor: pointer;
+    transition: var(--trsition);
+    color: #fff
+}
+
+.others a:hover {
+    color: #333
 }
 
 /* End Setting box */
@@ -212,12 +227,12 @@ body {
 .screen {
     width: 100%;
     background-color: var(--screen-background);
-    padding: 10px;
+    padding: 0 0 0 5px;
     text-align: right;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-height: 40px;
+    height: 40px;
     overflow: hidden
 }
 
@@ -227,7 +242,8 @@ body {
     align-items: center;
     height: 14px;
     list-style: none;
-    grid-gap: 3px
+    grid-gap: 3px;
+    padding-left: 5px
 }
 
 .screen ul li {
@@ -240,7 +256,20 @@ body {
 }
 
 .screen input {
-    letter-spacing: 2px
+    letter-spacing: 2px;
+    width: 80%;
+    font-size: 20px;
+    padding-left: 5px;
+    border: 0;
+    color: #fff
+}
+
+.screen > span {
+    position: absolute;
+    top: 0;
+    left: 48px;
+    color: #fff;
+    display: none
 }
 
 .keys {
@@ -272,7 +301,7 @@ body {
 }
 
 .record {
-    background-color: var(--record-background);
+    background-color: var(--operator-background);
     font-size: 15px
 }
 
@@ -280,13 +309,6 @@ body {
     background-color: var(--operator-background);
 }
 
-.clear {
-    background-color: var(--clear-background);
-}
-
-.equal {
-    background-color: var(--equal-background);
-}
 
 .key:hover,
 .record:hover {
@@ -313,7 +335,7 @@ body {
 .modal-content {
     background-color: var(--modal-content);
     margin: auto;
-    padding: 30px;
+    padding: 30px 10px;
     border: 1px solid #888;
     width: 60%;
     border-radius: 10px;
@@ -357,7 +379,7 @@ body {
     list-style: none;
     background: #fff;
     border-radius: 10px;
-    padding: 10px;
+    padding: 10px 5px;
     overflow: auto;
     max-height: 400px;
     scroll-behavior: smooth
@@ -387,7 +409,6 @@ body {
     font-size: 15px;
     display: flex;
     align-items: center;
-    flex-direction: row
 }
 
 #record-list li:last-of-type {
@@ -395,12 +416,14 @@ body {
 }
 
 #record-list li div {
-    flex: 1
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center
 }
 
 
 #record-list li div span:last-of-type {
-    margin-left: 10px;
     color: var(--clear-background)
 }
 
@@ -425,7 +448,8 @@ body {
     outline: none;
     border: none;
     color: #fff;
-    cursor: pointer
+    cursor: pointer;
+    border: 1px solid #fff
 }
 
 #clear-record-btn {
@@ -443,7 +467,7 @@ body {
 }
 
 .modal-content > div button:last-of-type {
-    background-color: var(--equal-background)
+    background-color: green
 }
 
 .modal-content > div button:last-of-type:hover {
@@ -494,9 +518,9 @@ body {
 }
 
 .confirm-delete-message button.confirm-delete-no {
-    background-color: var(--equal-background);
+    background-color: green;
 }
 
 .confirm-delete-message button:hover {
-    opacity: 0.9;
+    opacity: 0.7;
 }
