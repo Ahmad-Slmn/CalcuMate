@@ -63,6 +63,23 @@ keys.forEach(key => {
         }, 800);
     });
 
+    key.addEventListener('touchstart', () => {
+        timer = setTimeout(() => {
+            // If the value of the key is 'clear', clear the screen
+            if (key.getAttribute('value') === 'clear') {
+                screen.value = '';
+            }
+        }, 800);
+    });
+
+    key.addEventListener('mouseup', () => {
+        clearTimeout(timer);
+    });
+
+    key.addEventListener('touchend', () => {
+        clearTimeout(timer);
+    });
+
     // Add a mouseup event listener to the key
     key.addEventListener('mouseup', () => {
         // Clear the timer set by the mousedown event listener
