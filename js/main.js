@@ -69,21 +69,7 @@ rateAppLink.addEventListener('click', function () {
 
 
 document.querySelector('.check-for-updates').addEventListener('click', function () {
-    const appId = 'اسم-حزمة-التطبيق';
-    const playStoreUrl = `https://play.google.com/store/apps/details?id=${appId}`;
-
-    playScraper.app({
-        appId
-    }).then((appData) => {
-        if (appData.version != appData.currentVersion) {
-            window.location.href = playStoreUrl;
-        } else {
-            alert('There are no updates available at the moment');
-        }
-    }).catch((err) => {
-        console.error(err);
-        alert('An error occurred while checking for updates');
-    });
+    window.location.href = 'https://play.google.com/store/apps/details?id=اسم-حزمة-التطبيق&hl=en';
 });
 
 
