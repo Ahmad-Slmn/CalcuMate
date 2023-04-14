@@ -178,7 +178,25 @@ keys.forEach(key => {
                     }
                 }
             } else {
-                alert('Please enter an arithmetic operation');
+                // Create a success message element
+                const successMsg = document.createElement("div");
+                successMsg.classList.add("success-message");
+                successMsg.innerText = "Please enter an arithmetic operation";
+                successMsg.style.backgroundColor = "red";
+                document.body.appendChild(successMsg);
+                // Fade in the success message
+                setTimeout(function () {
+                    successMsg.style.opacity = "1";
+                }, 30);
+
+                // Fade out the success message after 2 seconds
+                setTimeout(function () {
+                    successMsg.style.opacity = "0";
+                    setTimeout(function () {
+                        successMsg.parentNode.removeChild(successMsg);
+                    }, 1000);
+                }, 2000);
+
             }
         }
 
@@ -227,7 +245,24 @@ modalClose.onclick = function () {
 clearRecordBtn.addEventListener('click', function () {
 
     if (operations.length === 0) {
-        alert("There is no record to delete!");
+        const successMsg = document.createElement("div");
+        successMsg.classList.add("success-message");
+        successMsg.innerText = "There is no record to delete!";
+        modal.appendChild(successMsg);
+        successMsg.style.backgroundColor = "red";
+
+        // Fade in the success message
+        setTimeout(function () {
+            successMsg.style.opacity = "1";
+        }, 30);
+
+        // Fade out the success message after 2 seconds
+        setTimeout(function () {
+            successMsg.style.opacity = "0";
+            setTimeout(function () {
+                successMsg.parentNode.removeChild(successMsg);
+            }, 1000);
+        }, 2000);
         return;
     }
 
@@ -251,6 +286,25 @@ clearRecordBtn.addEventListener('click', function () {
         localStorage.removeItem("operations");
         recordList.innerHTML = '';
         confirmDelete.remove();
+        // Create a success message element
+        const successMsg = document.createElement("div");
+        successMsg.classList.add("success-message");
+        successMsg.innerText = "All records have been deleted.";
+        successMsg.style.backgroundColor = "red";
+        modal.appendChild(successMsg);
+        // Fade in the success message
+        setTimeout(function () {
+            successMsg.style.opacity = "1";
+        }, 30);
+
+        // Fade out the success message after 2 seconds
+        setTimeout(function () {
+            successMsg.style.opacity = "0";
+            setTimeout(function () {
+                successMsg.parentNode.removeChild(successMsg);
+            }, 1000);
+        }, 2000);
+
     });
 
     // Assign a function to the "no" button to remove the confirmation element from the page.
@@ -298,9 +352,44 @@ copyBtn.onclick = function () {
         textArea.select();
         document.execCommand('copy');
         document.body.removeChild(textArea);
-        alert('Record copied to clipboard successfully!');
+        // Create a success message element
+        const successMsg = document.createElement("div");
+        successMsg.classList.add("success-message");
+        successMsg.innerText = "Record copied successfully";
+        modal.appendChild(successMsg);
+        // Fade in the success message
+        setTimeout(function () {
+            successMsg.style.opacity = "1";
+        }, 30);
+
+        // Fade out the success message after 2 seconds
+        setTimeout(function () {
+            successMsg.style.opacity = "0";
+            setTimeout(function () {
+                successMsg.parentNode.removeChild(successMsg);
+            }, 1000);
+        }, 2000);
+
     } else {
-        alert('No record to copy.')
+        const successMsg = document.createElement("div");
+        successMsg.classList.add("success-message");
+        successMsg.innerText = "No record to copy.";
+        modal.appendChild(successMsg);
+        successMsg.style.backgroundColor = "red";
+
+        // Fade in the success message
+        setTimeout(function () {
+            successMsg.style.opacity = "1";
+        }, 30);
+
+        // Fade out the success message after 2 seconds
+        setTimeout(function () {
+            successMsg.style.opacity = "0";
+            setTimeout(function () {
+                successMsg.parentNode.removeChild(successMsg);
+            }, 1000);
+        }, 2000);
+
     }
 }
 

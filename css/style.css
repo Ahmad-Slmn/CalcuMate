@@ -74,6 +74,22 @@ body {
     background-color: #484D5A
 }
 
+.success-message {
+    padding: 7px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    line-height: 24px;
+    background-color: green;
+    border-color: #c3e6cb;
+    color: #fff;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 1s ease;
+    z-index: 9999
+}
+
 .calculator {
     width: 300px;
     background-color: var(--calculator-background);
