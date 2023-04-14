@@ -631,3 +631,52 @@ document.querySelector(".reset-options").onclick = function () {
     // Reload the page to apply the default settings
     window.location.reload()
 }
+
+
+// Get the share button element
+const shareBtn = document.querySelector('.shareBtn');
+
+// Add a click event listener to the share button
+shareBtn.addEventListener('click', () => {
+    // Check if the browser supports the Social Share API
+    if (navigator.share) {
+        // If the browser supports the API, create the share data
+        const shareData = {
+            title: 'My App',
+            text: 'Check out this cool app!',
+            url: window.location.href
+        };
+        // Share the data using the Social Share API
+        navigator.share(shareData)
+            .then(() => {
+                console.log('Share was successful.');
+            })
+            .catch((error) => {
+                console.log(`An error occurred while sharing: ${error}`);
+            });
+    } else {
+        // If the browser doesn't support the API, display an error message
+        console.log('Social Share API not supported in this browser.');
+    }
+});
+
+// Get the feedback link element
+const feedbackLink = document.querySelector('.feedbackLink');
+
+// Add a click event listener to the feedback link
+feedbackLink.addEventListener('click', (event) => {
+    // Prevent the link from navigating to a new page
+    event.preventDefault();
+
+    // Create the email data
+    const emailData = {
+        subject: 'Feedback for My App',
+        body: 'Dear team,\n\nI would like to provide some feedback on your app.\n\nSincerely,\n[Your Name]'
+    };
+
+    // Create the mailto link
+    const mailtoLink = `mailto:support@myapp.com?subject=${encodeURIComponent(emailData.subject)}&body=${encodeURIComponent(emailData.body)}`;
+
+    // Open the default email app with the mailto link
+    window.location.href = mailtoLink;
+});
