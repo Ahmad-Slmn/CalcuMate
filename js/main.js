@@ -230,6 +230,24 @@ recordBtn.onclick = function () {
             operationElem.remove();
             operations.splice(operations.indexOf(operationElem.outerHTML), 1);
             localStorage.setItem("operations", JSON.stringify(operations));
+            // Create a success message element
+            const successMsg = document.createElement("div");
+            successMsg.classList.add("success-message");
+            successMsg.innerText = "Selected record has been deleted.";
+            successMsg.style.backgroundColor = "red";
+            modal.appendChild(successMsg);
+            // Fade in the success message
+            setTimeout(function () {
+                successMsg.style.opacity = "1";
+            }, 30);
+
+            // Fade out the success message after 2 seconds
+            setTimeout(function () {
+                successMsg.style.opacity = "0";
+                setTimeout(function () {
+                    successMsg.parentNode.removeChild(successMsg);
+                }, 1000);
+            }, 2000);
         };
         operationElem.appendChild(deleteBtn);
     });
