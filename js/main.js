@@ -93,7 +93,7 @@ keys.forEach(key => {
                 screen.value = screen.value.slice(0, -1);
             }
         } else if (value === '.') {
-            if (!isNaN(screen.value.slice(-1))) {
+            if (!isNaN(screen.value.slice(-1)) && !(screen.value.includes('.'))) {
                 screen.value += value;
             }
         }
