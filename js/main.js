@@ -92,11 +92,10 @@ keys.forEach(key => {
             if (screen.value.length > 0) {
                 screen.value = screen.value.slice(0, -1);
             }
-        }
-
-        // If the value is a number, add it to the screen
-        else if (!isNaN(value) || value === '.') {
-            screen.value += value;
+        } else if (value === '.') {
+            if (!isNaN(screen.value.slice(-1))) {
+                screen.value += value;
+            }
         }
 
         // If the value is 'MR', retrieve the value from localStorage and display it on the screen
