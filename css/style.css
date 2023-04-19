@@ -16,7 +16,7 @@ body {
     --calculator-background: #303030;
     --screen-background: #1c1c1c;
     --key-background: #404040;
-/*    --key-hover-background: #585858;*/
+    --key-hover-background: #585858;
     --key-active: #262626;
     --operator-background: #ff9500;
     --clear-background: #ff3b30;
@@ -326,12 +326,10 @@ body {
 }
 
 
-/*
 .key:hover,
 .record:hover {
     background-color: var(--key-hover-background);
 }
-*/
 
 .key:active {
     background-color: var(--key-active);
