@@ -632,21 +632,26 @@
  }
 
 
- // Get the share button element
  const shareBtn = document.querySelector('.shareBtn');
 
- // Add a click event listener to the share button
  shareBtn.addEventListener('click', () => {
-     // Check if the browser supports the Social Share API
-     if (navigator.share) {
-         // If the browser supports the API, create the share data
-         const shareData = {
-             title: 'My App',
-             text: 'Check out this cool app!',
-             url: window.location.href
-         };
-         // Share the data using the Social Share API
-         navigator.share(shareData)
+     const shareData = {
+         title: 'My App',
+         text: 'Check out this cool app!',
+         url: window.location.href
+     };
+
+     if (navigator.canShare && navigator.canShare({
+             title: shareData.title,
+             text: shareData.text,
+             url: shareData.url
+         })) {
+         // whatsapp, facebook, youtube
+         navigator.share({
+                 title: shareData.title,
+                 text: shareData.text,
+                 url: shareData.url
+             })
              .then(() => {
                  console.log('Share was successful.');
              })
@@ -654,10 +659,27 @@
                  console.log(`An error occurred while sharing: ${error}`);
              });
      } else {
-         // If the browser doesn't support the API, display an error message
-         console.log('Social Share API not supported in this browser.');
+         // fallback to other social media options
+         const otherSocialMedia = ['twitter', 'linkedin', 'pinterest', 'email'];
+         const shareUrl = encodeURIComponent(shareData.url);
+         const shareText = encodeURIComponent(shareData.text);
+         const shareTitle = encodeURIComponent(shareData.title);
+         const otherSocialMediaUrls = {
+             twitter: `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}&via=MyApp`,
+             linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${shareTitle}&summary=${shareText}&source=MyApp`,
+             pinterest: `https://pinterest.com/pin/create/button/?url=${shareUrl}&media=&description=${shareText}`,
+             email: `mailto:?subject=${shareTitle}&body=${shareText} ${shareUrl}`
+         };
+         const socialMediaWindow = window.open('', 'socialMediaWindow');
+
+         for (let i = 0; i < otherSocialMedia.length; i++) {
+             const currentSocialMedia = otherSocialMedia[i];
+             const currentSocialMediaUrl = otherSocialMediaUrls[currentSocialMedia];
+             socialMediaWindow.location.href = currentSocialMediaUrl;
+         }
      }
  });
+
 
  // Get the feedback link element
  const feedbackLink = document.querySelector('.feedbackLink');
