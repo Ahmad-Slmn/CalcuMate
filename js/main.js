@@ -635,48 +635,41 @@
  const shareBtn = document.querySelector('.shareBtn');
 
  shareBtn.addEventListener('click', () => {
-     const shareData = {
-         title: 'My App',
-         text: 'Check out this cool app!',
-         url: window.location.href
-     };
-
-     if (navigator.canShare && navigator.canShare({
-             title: shareData.title,
-             text: shareData.text,
-             url: shareData.url
-         })) {
-         // whatsapp, facebook, youtube
-         navigator.share({
-                 title: shareData.title,
-                 text: shareData.text,
-                 url: shareData.url
-             })
-             .then(() => {
-                 console.log('Share was successful.');
-             })
-             .catch((error) => {
-                 console.log(`An error occurred while sharing: ${error}`);
-             });
-     } else {
-         // fallback to other social media options
-         const otherSocialMedia = ['twitter', 'linkedin', 'pinterest', 'email'];
-         const shareUrl = encodeURIComponent(shareData.url);
-         const shareText = encodeURIComponent(shareData.text);
-         const shareTitle = encodeURIComponent(shareData.title);
-         const otherSocialMediaUrls = {
-             twitter: `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}&via=MyApp`,
-             linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${shareTitle}&summary=${shareText}&source=MyApp`,
-             pinterest: `https://pinterest.com/pin/create/button/?url=${shareUrl}&media=&description=${shareText}`,
-             email: `mailto:?subject=${shareTitle}&body=${shareText} ${shareUrl}`
+     if (navigator.share) {
+         const shareData = {
+             title: 'My App',
+             text: 'Check out this cool app!',
+             url: window.location.href
          };
-         const socialMediaWindow = window.open('', 'socialMediaWindow');
-
-         for (let i = 0; i < otherSocialMedia.length; i++) {
-             const currentSocialMedia = otherSocialMedia[i];
-             const currentSocialMediaUrl = otherSocialMediaUrls[currentSocialMedia];
-             socialMediaWindow.location.href = currentSocialMediaUrl;
+         // Define the preferred sharing order
+         const sharingOrder = ['whatsapp', 'facebook', 'youtube', 'twitter', 'linkedin', 'pinterest', 'email'];
+         // Loop through the sharing order
+         for (const sharingOption of sharingOrder) {
+             // Check if the Social Share API supports the sharing option
+             if (navigator.canShare && navigator.canShare({
+                     title: shareData.title,
+                     text: shareData.text,
+                     url: shareData.url,
+                     [sharingOption]: ''
+                 })) {
+                 // If the sharing option is supported, use the Social Share API to share the data
+                 navigator.share({
+                         title: shareData.title,
+                         text: shareData.text,
+                         url: shareData.url,
+                    [sharingOption]: shareData.url
+                     })
+                     .then(() => {
+                         console.log('Share was successful.');
+                     })
+                     .catch((error) => {
+                         console.log(`An error occurred while sharing: ${error}`);
+                     });
+                 break;
+             }
          }
+     } else {
+         console.log('Social Share API not supported in this browser.');
      }
  });
 
