@@ -632,47 +632,32 @@
  }
 
 
+ // Get the share button element
  const shareBtn = document.querySelector('.shareBtn');
 
+ // Add a click event listener to the share button
  shareBtn.addEventListener('click', () => {
+     // Check if the browser supports the Social Share API
      if (navigator.share) {
+         // If the browser supports the API, create the share data
          const shareData = {
              title: 'My App',
              text: 'Check out this cool app!',
              url: window.location.href
          };
-         // Define the preferred sharing order
-         const sharingOrder = ['whatsapp', 'facebook', 'youtube', 'twitter', 'linkedin', 'pinterest', 'email'];
-         // Loop through the sharing order
-         for (const sharingOption of sharingOrder) {
-             // Check if the Social Share API supports the sharing option
-             if (navigator.canShare && navigator.canShare({
-                     title: shareData.title,
-                     text: shareData.text,
-                     url: shareData.url,
-                     [sharingOption]: ''
-                 })) {
-                 // If the sharing option is supported, use the Social Share API to share the data
-                 navigator.share({
-                         title: shareData.title,
-                         text: shareData.text,
-                         url: shareData.url,
-                    [sharingOption]: shareData.url
-                     })
-                     .then(() => {
-                         console.log('Share was successful.');
-                     })
-                     .catch((error) => {
-                         console.log(`An error occurred while sharing: ${error}`);
-                     });
-                 break;
-             }
-         }
+         // Share the data using the Social Share API
+         navigator.share(shareData)
+             .then(() => {
+                 console.log('Share was successful.');
+             })
+             .catch((error) => {
+                 console.log(`An error occurred while sharing: ${error}`);
+             });
      } else {
+         // If the browser doesn't support the API, display an error message
          console.log('Social Share API not supported in this browser.');
      }
  });
-
 
  // Get the feedback link element
  const feedbackLink = document.querySelector('.feedbackLink');
