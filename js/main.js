@@ -331,7 +331,7 @@
      });
  });
 
- // Update check Record function to improve readability and ease of future modifications
+ // Update check History function to improve readability and ease of future modifications
  function checkHistory() {
      if (historyList.children.length === 0) {
          historyList.innerHTML = "The history is empty.";
@@ -342,7 +342,7 @@
      }
  }
 
- // Call check Record function to update the display
+ // Call check History function to update the display
  setInterval(checkHistory);
 
  // Copy History to clipboard when copy button is clicked
@@ -372,7 +372,7 @@
          // Create a success message element
          const successMsg = document.createElement("div");
          successMsg.classList.add("success-message");
-         successMsg.innerText = "Record copied successfully";
+         successMsg.innerText = "history copied successfully";
          modal.appendChild(successMsg);
          // Fade in the success message
          setTimeout(function () {
