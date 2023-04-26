@@ -207,22 +207,22 @@
  });
 
  // Select DOM elements
- const recordBtn = document.getElementById('record-btn');
- const modal = document.getElementById('record-modal');
+ const historyBtn = document.getElementById('history-btn');
+ const modal = document.getElementById('history-modal');
  const modalClose = document.getElementsByClassName('close')[0];
- const recordList = document.getElementById('record-list');
- const clearRecordBtn = document.getElementById('clear-record-btn')
+ const historyList = document.getElementById('history-list');
+ const clearHistory = document.getElementById('clear-history-btn')
 
 
- // Show record modal when record button is clicked
- recordBtn.onclick = function () {
+ // Show History modal when History button is clicked
+ historyBtn.onclick = function () {
      modal.style.display = 'block';
-     recordList.innerHTML = '';
-     // Loop through operations in reverse order and append them to the record list
+     historyList.innerHTML = '';
+     // Loop through operations in reverse order and append them to the History list
      operations.slice().reverse().forEach(operation => {
          const operationElem = document.createElement('li');
          operationElem.innerHTML = operation;
-         recordList.appendChild(operationElem);
+         historyList.appendChild(operationElem);
          const deleteBtn = document.createElement('button');
          deleteBtn.innerText = 'Delete';
          deleteBtn.onclick = function () {
@@ -232,7 +232,7 @@
              // Create a success message element
              const successMsg = document.createElement("div");
              successMsg.classList.add("success-message");
-             successMsg.innerText = "Selected record has been deleted.";
+             successMsg.innerText = "Selected history has been deleted.";
              successMsg.style.backgroundColor = "red";
              modal.appendChild(successMsg);
              // Fade in the success message
@@ -253,18 +253,18 @@
  }
 
 
- // Hide record modal when close button is clicked
+ // Hide History modal when close button is clicked
  modalClose.onclick = function () {
      modal.style.display = 'none';
  }
 
- // Clear record and remove from local storage when clear record button is clicked
- clearRecordBtn.addEventListener('click', function () {
+ // Clear History and remove from local storage when clear History button is clicked
+ clearHistory.addEventListener('click', function () {
 
      if (operations.length === 0) {
          const successMsg = document.createElement("div");
          successMsg.classList.add("success-message");
-         successMsg.innerText = "There is no record to delete!";
+         successMsg.innerText = "There is no history to delete!";
          modal.appendChild(successMsg);
          successMsg.style.backgroundColor = "red";
 
@@ -288,7 +288,7 @@
      confirmDelete.classList.add('confirm-delete');
      confirmDelete.innerHTML = `
         <div class="confirm-delete-message">
-            <p>Are you sure you want to clear all records?</p>
+            <p>Are you sure you want to clear all history?</p>
             <button class="confirm-delete-yes">yes</button>
             <button class="confirm-delete-no">no</button>
         </div>
@@ -301,12 +301,12 @@
      confirmDeleteYes.addEventListener('click', function () {
          operations = [];
          localStorage.removeItem("operations");
-         recordList.innerHTML = '';
+         historyList.innerHTML = '';
          confirmDelete.remove();
          // Create a success message element
          const successMsg = document.createElement("div");
          successMsg.classList.add("success-message");
-         successMsg.innerText = "All records have been deleted.";
+         successMsg.innerText = "All history have been deleted.";
          successMsg.style.backgroundColor = "red";
          modal.appendChild(successMsg);
          // Fade in the success message
@@ -332,20 +332,20 @@
  });
 
  // Update check Record function to improve readability and ease of future modifications
- function checkrecord() {
-     if (recordList.children.length === 0) {
-         recordList.innerHTML = "The record is empty.";
-         recordList.style.textAlign = "center";
+ function checkHistory() {
+     if (historyList.children.length === 0) {
+         historyList.innerHTML = "The history is empty.";
+         historyList.style.textAlign = "center";
      } else {
 
-         recordList.style.textAlign = "left";
+         historyList.style.textAlign = "left";
      }
  }
 
  // Call check Record function to update the display
- setInterval(checkrecord);
+ setInterval(checkHistory);
 
- // Copy record to clipboard when copy button is clicked
+ // Copy History to clipboard when copy button is clicked
  const copyBtn = document.getElementById('copy-btn');
 
  // When the copy button is clicked, copy the operations to clipboard
@@ -390,7 +390,7 @@
      } else {
          const successMsg = document.createElement("div");
          successMsg.classList.add("success-message");
-         successMsg.innerText = "No record to copy.";
+         successMsg.innerText = "No history to copy.";
          modal.appendChild(successMsg);
          successMsg.style.backgroundColor = "red";
 

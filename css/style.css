@@ -297,7 +297,7 @@ body {
 }
 
 .key,
-.record {
+.history {
     width: calc(25% - 10px);
     height: 50px;
     margin-bottom: 10px;
@@ -317,7 +317,7 @@ body {
     display: none;
 }
 
-.record {
+.history {
     background-color: var(--operator-background);
     font-size: 15px
 }
@@ -328,7 +328,7 @@ body {
 
 
 .key:hover,
-.record:hover {
+.history:hover {
     background-color: var(--key-hover-background);
 }
 
@@ -358,7 +358,7 @@ body {
     border-radius: 10px;
     position: relative;
     overflow: hidden;
-
+    font-weight: bold
 }
 
 @media(max-width:767px) {
@@ -374,9 +374,8 @@ body {
 }
 
 
-.close {
+.modal-content .close {
     font-size: 28px;
-    font-weight: bold;
     cursor: pointer;
     position: absolute;
     top: 0;
@@ -385,14 +384,11 @@ body {
     transition: var(--trsition)
 }
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
+.modal-content .close:hover {
+    color: #000
 }
 
-#record-list {
+#history-list {
     list-style: none;
     background: #fff;
     border-radius: 10px;
@@ -402,25 +398,25 @@ body {
     scroll-behavior: smooth
 }
 
-#record-list::-webkit-scrollbar {
+#history-list::-webkit-scrollbar {
     width: 8px
 }
 
-#record-list::-webkit-scrollbar-track {
+#history-list::-webkit-scrollbar-track {
     background: #f1f1f1
 }
 
-#record-list::-webkit-scrollbar-thumb {
+#history-list::-webkit-scrollbar-thumb {
     background-color: var(--calculator-background);
     border-radius: 10px
 }
 
-#record-list::-webkit-scrollbar-thumb:hover {
+#history-list::-webkit-scrollbar-thumb:hover {
     background-color: #555
 }
 
 
-#record-list li {
+#history-list li {
     border-bottom: 1px solid var(--calculator-background);
     padding: 10px 0;
     font-size: 15px;
@@ -428,11 +424,11 @@ body {
     align-items: center;
 }
 
-#record-list li:last-of-type {
+#history-list li:last-of-type {
     border-bottom: none
 }
 
-#record-list li div {
+#history-list li div {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -440,11 +436,11 @@ body {
 }
 
 
-#record-list li div span:last-of-type {
+#history-list li div span:last-of-type {
     color: var(--clear-background)
 }
 
-#record-list li > button {
+#history-list li > button {
     background-color: var(--clear-background);
     border: none;
     outline: none;
@@ -452,10 +448,11 @@ body {
     border-radius: 6px;
     padding: 5px 10px;
     cursor: pointer;
-    transition: var(--trsition)
+    transition: var(--trsition);
+    font-weight: bold
 }
 
-#record-list li > button:hover {
+#history-list li > button:hover {
     background-color: var(--key-hover-background)
 }
 
@@ -466,21 +463,19 @@ body {
     border: none;
     color: #fff;
     cursor: pointer;
-    border: 1px solid #fff
+    border: 1px solid #fff;
+    transition: var(--trsition);
+    font-weight: bold
 }
 
-#clear-record-btn {
+#clear-history-btn {
     margin-top: 10px;
     background-color: var(--clear-background);
     transition: var(--trsition)
 }
 
-#clear-record-btn:hover {
+#clear-history-btn:hover {
     background-color: var(--key-hover-background)
-}
-
-.modal-content > div button {
-    transition: var(--trsition)
 }
 
 .modal-content > div button:last-of-type {
