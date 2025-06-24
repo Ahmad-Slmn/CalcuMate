@@ -77,6 +77,18 @@ let isTouchDevice = false;
 
 // الكشف عن تفاعل اللمس لأول مرة
 keys.forEach(key => {
+    // إزالة تأثير hover عند بداية اللمس
+  key.addEventListener('touchstart', () => {
+    key.classList.add('no-hover');
+  });
+
+  // إعادة السماح بتأثير hover بعد انتهاء اللمس
+  key.addEventListener('touchend', () => {
+    setTimeout(() => {
+      key.classList.remove('no-hover');
+    }, 300);
+  });
+    
   key.addEventListener('touchstart', () => { isTouchDevice = true; }, { once: true });
 
   // مخصص للماوس فقط
