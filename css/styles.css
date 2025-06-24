@@ -301,23 +301,24 @@ span:hover {
 
 /* تعطيل تأثير hover وactive تلقائيًا على الأجهزة اللمسية */
 @media (hover: none) and (pointer: coarse) {
-  .key:hover,
-  .key:active
-   {
-    background: var(--key-background) !important;
-    transition: none !important;
-  }
-  
-  .operator:hover,
-  .operator:active,
-  .equal:hover,
-  .equal:active,
-  .history:hover,
-  .history:active,
-  #copy-result-btn:hover,
-  #copy-result-btn:active {
-      background: var(--operator-background)
-  }
+
+    .key:hover,
+    .key:active {
+        background: var(--key-background) !important;
+        transition: none !important;
+    }
+
+    .operator:hover,
+    .operator:active,
+    .equal:hover,
+    .equal:active,
+    .history:hover,
+    .history:active,
+    #copy-result-btn:hover,
+    #copy-result-btn:active {
+        background: var(--operator-background) !important;
+        transition: none !important;
+    }
 }
 
 
