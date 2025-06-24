@@ -242,7 +242,8 @@ span:hover {
   border: none;
   letter-spacing: 5px;
   background: inherit;
-  color: inherit
+  color: inherit;
+  outline: none
 }
 .screen > span {
   position: absolute;

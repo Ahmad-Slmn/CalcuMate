@@ -72,147 +72,163 @@ function handleLongPress(key) {
 
 // مقتطف رئيسي فقط من الكود المعدل المتعلق بالأزرار
 
+// تحديد عناصر المفاتيح
+let isTouchDevice = false;
+
+// الكشف عن تفاعل اللمس لأول مرة
 keys.forEach(key => {
-  ['mousedown', 'touchstart'].forEach(evt => {
-        key.addEventListener(evt, () => {
-            playSound();
-            vibrate();
-            handleLongPress(key);
-        });
-    });
+  key.addEventListener('touchstart', () => { isTouchDevice = true; }, { once: true });
 
-  ['mouseup', 'touchend'].forEach(evt => {
-        key.addEventListener(evt, clearTimer);
-    });
+  // مخصص للماوس فقط
+  key.addEventListener('mousedown', e => {
+    if (isTouchDevice) return;
+    playSound();
+    vibrate();
+    handleLongPress(key);
+  });
 
-  ['mouseup', 'touchend'].forEach(evt => {
-        key.addEventListener(evt, () => {
-            clearTimer();
-            const value = key.value;
+  // مخصص للأجهزة اللمسية فقط
+  key.addEventListener('touchstart', e => {
+    playSound();
+    vibrate();
+    handleLongPress(key);
+  });
 
-            // ✅ زر التراجع ←
-            if (value === 'backspace') {
-                screenElement.value = screenElement.value.slice(0, -1);
-                return;
-            }
+  // إنهاء الضغط الطويل ومعالجة الضغط
+  key.addEventListener('mouseup', e => {
+    if (isTouchDevice) return;
+    clearTimer();
+    handleKeyPress(key);
+  });
 
-            // ✅ زر المسح الكامل
-            if (value === 'clear') {
-                screenElement.value = '';
-                return;
-            }
-
-            // ✅ زر النقطة العشرية
-            if (value === '.') {
-                if (!isNaN(screenElement.value.slice(-1))) {
-                    screenElement.value += value;
-                }
-                return;
-            }
-
-            // ✅ أزرار الذاكرة
-            if (value === 'MR') {
-                const mem = localStorage.getItem('memory');
-                if (mem) screenElement.value += mem;
-                return;
-            }
-
-            if (value === 'MC') {
-                localStorage.removeItem('memory');
-                return;
-            }
-
-            if (value === 'M+' || value === 'M-') {
-                const screenVal = parseFloat(screenElement.value.trim());
-                if (!isNaN(screenVal)) {
-                    let memVal = parseFloat(localStorage.getItem('memory')) || 0;
-                    memVal = value === 'M+' ? memVal + screenVal : memVal - screenVal;
-                    localStorage.setItem('memory', memVal.toString());
-                }
-                return;
-            }
-
-            // ✅ زر النسبة المئوية %
-            if (value === '%') {
-                const lastChar = screenElement.value.slice(-1);
-                if (!isNaN(lastChar)) {
-                    screenElement.value += '%';
-                }
-                return;
-            }
-
-            // ✅ العمليات الرياضية والأقواس
-            if (["+", "-", "×", "÷", "(", ")"].includes(value)) {
-                const lastChar = screenElement.value.slice(-1);
-                if (
-                    screenElement.value.length > 0 &&
-                    (!isNaN(lastChar) || lastChar === '%' || lastChar === '(' || lastChar === ')')
-                ) {
-                    screenElement.value += value;
-                } else if (value === '(') {
-                    screenElement.value += value;
-                }
-                return;
-            }
-
-            // ✅ زر المساواة =
-            if (value === '=') {
-                let operation = screenElement.value.trim();
-                if (!operation) {
-                    showMessage("Please enter an arithmetic operation");
-                    return;
-                }
-
-                if (/[^0-9+\-÷×%().]/.test(operation)) {
-                    alert('Please enter a valid arithmetic operation');
-                    return;
-                }
-
-                try {
-                    // تعديل حساب النسبة المئوية
-                    operation = operation.replace(/(\d+(\.\d+)?)%/g, (match, p1, p2, offset, str) => {
-                        // نبحث عن الرقم أو التعبير السابق للنسبة
-                        let prefix = str.slice(0, offset);
-                        let matchPrev = prefix.match(/(\d+(\.\d+)?|\([^()]+\))\s*$/);
-
-                        if (matchPrev) {
-                            let prevNumberOrExpr = matchPrev[1];
-                            return `(${prevNumberOrExpr}*${p1}/100)`;
-                        } else {
-                            return `(${p1}/100)`;
-                        }
-                    });
-
-                    const expression = operation
-                        .replace(/×/g, '*')
-                        .replace(/÷/g, '/');
-
-                    const result = math.evaluate(expression);
-
-                    const pad = num => String(num).padStart(2, '0');
-                    const date = new Date();
-                    const timestamp = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
-
-                    const operationHTML = `
-            <div>
-              <span class="Operation-Text">${operation} = ${result}</span>
-              <span class="Operation-Date">${timestamp}</span>
-            </div>
-          `;
-                    operations.push(operationHTML);
-                    localStorage.setItem("operations", JSON.stringify(operations));
-                    screenElement.value = result.toString();
-                } catch {
-                    alert('Error evaluating the expression.');
-                }
-                return;
-            }
-
-            // ✅ الافتراضي: إضافة القيمة إلى الشاشة
-            screenElement.value += value;
-        });
-    });
+  key.addEventListener('touchend', e => {
+    clearTimer();
+    handleKeyPress(key);
+  });
 });
+
+function clearTimer() {
+  clearTimeout(timer);
+}
+
+function handleLongPress(key) {
+  timer = setTimeout(() => {
+    if (key.value === 'clear') screenElement.value = '';
+  }, 800);
+}
+
+function handleKeyPress(key) {
+  const value = key.value;
+
+  if (value === 'backspace') {
+    screenElement.value = screenElement.value.slice(0, -1);
+    return;
+  }
+
+  if (value === 'clear') {
+    screenElement.value = '';
+    return;
+  }
+
+  if (value === '.') {
+    if (!isNaN(screenElement.value.slice(-1))) {
+      screenElement.value += value;
+    }
+    return;
+  }
+
+  if (value === 'MR') {
+    const mem = localStorage.getItem('memory');
+    if (mem) screenElement.value += mem;
+    return;
+  }
+
+  if (value === 'MC') {
+    localStorage.removeItem('memory');
+    return;
+  }
+
+  if (value === 'M+' || value === 'M-') {
+    const screenVal = parseFloat(screenElement.value.trim());
+    if (!isNaN(screenVal)) {
+      let memVal = parseFloat(localStorage.getItem('memory')) || 0;
+      memVal = value === 'M+' ? memVal + screenVal : memVal - screenVal;
+      localStorage.setItem('memory', memVal.toString());
+    }
+    return;
+  }
+
+  if (value === '%') {
+    const lastChar = screenElement.value.slice(-1);
+    if (!isNaN(lastChar)) {
+      screenElement.value += '%';
+    }
+    return;
+  }
+
+  if (["+", "-", "×", "÷", "(", ")"].includes(value)) {
+    const lastChar = screenElement.value.slice(-1);
+    if (
+      screenElement.value.length > 0 &&
+      (!isNaN(lastChar) || lastChar === '%' || lastChar === '(' || lastChar === ')')
+    ) {
+      screenElement.value += value;
+    } else if (value === '(') {
+      screenElement.value += value;
+    }
+    return;
+  }
+
+  if (value === '=') {
+    let operation = screenElement.value.trim();
+    if (!operation) {
+      showMessage("Please enter an arithmetic operation");
+      return;
+    }
+
+    if (/[^0-9+\-÷×%().]/.test(operation)) {
+      alert('Please enter a valid arithmetic operation');
+      return;
+    }
+
+    try {
+      operation = operation.replace(/(\d+(\.\d+)?)%/g, (match, p1, p2, offset, str) => {
+        let prefix = str.slice(0, offset);
+        let matchPrev = prefix.match(/(\d+(\.\d+)?|\([^()]+\))\s*$/);
+        if (matchPrev) {
+          let prevNumberOrExpr = matchPrev[1];
+          return `(${prevNumberOrExpr}*${p1}/100)`;
+        } else {
+          return `(${p1}/100)`;
+        }
+      });
+
+      const expression = operation.replace(/×/g, '*').replace(/÷/g, '/');
+      const result = math.evaluate(expression);
+
+      const pad = num => String(num).padStart(2, '0');
+      const date = new Date();
+      const timestamp = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+
+      const operationHTML = `
+        <div>
+          <span class="Operation-Text">${operation} = ${result}</span>
+          <span class="Operation-Date">${timestamp}</span>
+        </div>
+      `;
+
+      operations.push(operationHTML);
+      localStorage.setItem("operations", JSON.stringify(operations));
+      screenElement.value = result.toString();
+    } catch {
+      alert('Error evaluating the expression.');
+    }
+    return;
+  }
+
+  screenElement.value += value;
+}
+
 
 
 
@@ -229,6 +245,8 @@ document.getElementById('copy-display-btn').addEventListener('click', () => {
         .then(() => showMessage("Copied!", "green"))
         .catch(() => showMessage("Copy failed", "red"));
 });
+
+
 
 // Modal and History
 const historyBtn = document.getElementById('history-btn');
