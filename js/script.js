@@ -83,29 +83,24 @@ function handleLongPress(key) {
     }, 800);
 }
 
-// مقتطف رئيسي فقط من الكود المعدل المتعلق بالأزرار
-let isTouchDevice = false;
+let isTouchDevice = false; // ✅ تعريف المتغير أولاً
 
 keys.forEach(key => {
-  // عند اللمس: أضف الكلاس ثم أزله بعد وقت قصير
-key.addEventListener('touchstart', () => {
-  isTouchDevice = true;
-  key.classList.add('no-effects');
-  playSound();
-  vibrate();
-  handleLongPress(key);
+  key.addEventListener('touchstart', () => {
+    isTouchDevice = true;
+    key.classList.add('no-effects');
+    playSound();
+    vibrate();
+    handleLongPress(key);
 
-  // إزالة التأثير بعد وقت قصير
-  setTimeout(() => key.classList.remove('no-effects'), 150);
-});
-
+    setTimeout(() => key.classList.remove('no-effects'), 100);
+  });
 
   key.addEventListener('touchend', () => {
     clearTimer();
     handleKeyPress(key);
   });
 
-  // مخصص للماوس فقط
   key.addEventListener('mousedown', e => {
     if (isTouchDevice) return;
     playSound();
@@ -119,6 +114,7 @@ key.addEventListener('touchstart', () => {
     handleKeyPress(key);
   });
 });
+
 
 
 function clearTimer() {

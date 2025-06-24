@@ -246,7 +246,7 @@ span:hover {
 
 .key,
 .history,
-.copy-result-btn{
+.copy-result-btn {
   width: calc(25% - 8px);
   height: 50px;
   font-size: 20px;
@@ -269,13 +269,13 @@ span:hover {
 }
 
 .history,
-.copy-result-btn{
+.copy-result-btn {
   font-size: 14px;
   background: var(--operator-background);
 }
 
 .operator,
-.equal{
+.equal {
   background: var(--operator-background);
   color: var(--key-color);
 }
@@ -288,7 +288,6 @@ span:hover {
 .key:active {
   background: var(--key-active);
 }
-
 
 #copy-result-btn:hover {
   background: var(--key-hover-background);
@@ -304,6 +303,19 @@ span:hover {
 .key.no-effects:active {
   background: var(--key-background) !important;
   transition: none !important;
+}
+
+/* تعطيل تأثير hover وactive تلقائيًا على الأجهزة اللمسية */
+@media (hover: none) and (pointer: coarse) {
+  .key:hover,
+  .key:active,
+  .history:hover,
+  .history:active,
+  #copy-result-btn:hover,
+  #copy-result-btn:active {
+    background: var(--key-background) !important;
+    transition: none !important;
+  }
 }
 
 
