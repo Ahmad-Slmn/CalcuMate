@@ -90,8 +90,8 @@ keys.forEach(key => {
   // عند اللمس: أضف الكلاس ثم أزله بعد وقت قصير
   key.addEventListener('touchstart', () => {
     isTouchDevice = true;
-    key.classList.add('no-hover');
-    setTimeout(() => key.classList.remove('no-hover'), 100); // إزالة بعد 100ms
+    key.classList.add('no-active');
+    setTimeout(() => key.classList.remove('no-active'), 100); // إزالة بعد 100ms
     playSound();
     vibrate();
     handleLongPress(key);

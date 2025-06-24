@@ -14,8 +14,8 @@ html, body {
 
 body {
   display: flex;
-  justify-content: center;  /* تمركز أفقي */
-  align-items: center;      /* تمركز عمودي */
+  justify-content: center;
+  align-items: center;
   height: 100vh;
   font-family: Arial, sans-serif;
   background-color: var(--body-background);
@@ -289,8 +289,8 @@ span:hover {
   background: var(--key-active);
 }
 
-.no-hover:hover {
-  background: none !important;
+.key.no-active:active {
+  background: red !important;
 }
 
 
