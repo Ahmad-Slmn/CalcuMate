@@ -49,8 +49,9 @@ function showMessage(text, type = 'error', parent = document.body) {
   msg.style.color = '#fff';
   msg.style.padding = '12px 20px';
   msg.style.position = 'fixed';
-  msg.style.top = '20px';
+  msg.style.top = '0';
   msg.style.left = '50%';
+  msg.style.minWidth = 'fit-content';
   msg.style.transform = 'translateX(-50%)';
   msg.style.borderRadius = '6px';
   msg.style.boxShadow = '0 2px 10px rgba(0,0,0,0.15)';
@@ -83,21 +84,23 @@ function handleLongPress(key) {
 }
 
 // مقتطف رئيسي فقط من الكود المعدل المتعلق بالأزرار
-
-// تحديد عناصر المفاتيح
 let isTouchDevice = false;
 
-// الكشف عن تفاعل اللمس لأول مرة
 keys.forEach(key => {
+  // عند اللمس: أضف الكلاس ثم أزله بعد وقت قصير
   key.addEventListener('touchstart', () => {
+    isTouchDevice = true;
     key.classList.add('no-hover');
+    setTimeout(() => key.classList.remove('no-hover'), 100); // إزالة بعد 100ms
+    playSound();
+    vibrate();
+    handleLongPress(key);
   });
 
   key.addEventListener('touchend', () => {
-    key.classList.remove('no-hover');
+    clearTimer();
+    handleKeyPress(key);
   });
-    
-  key.addEventListener('touchstart', () => { isTouchDevice = true; }, { once: true });
 
   // مخصص للماوس فقط
   key.addEventListener('mousedown', e => {
@@ -107,25 +110,13 @@ keys.forEach(key => {
     handleLongPress(key);
   });
 
-  // مخصص للأجهزة اللمسية فقط
-  key.addEventListener('touchstart', e => {
-    playSound();
-    vibrate();
-    handleLongPress(key);
-  });
-
-  // إنهاء الضغط الطويل ومعالجة الضغط
   key.addEventListener('mouseup', e => {
     if (isTouchDevice) return;
     clearTimer();
     handleKeyPress(key);
   });
-
-  key.addEventListener('touchend', e => {
-    clearTimer();
-    handleKeyPress(key);
-  });
 });
+
 
 function clearTimer() {
   clearTimeout(timer);

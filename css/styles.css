@@ -335,13 +335,21 @@ span:hover {
   position: relative;
 }
 
-/* Responsive Modal Width */
+/* الشاشات الصغيرة (جوالات) */
 @media (max-width: 767px) {
-  .modal-content { width: 97%; }
+  .modal-content { width: 100%; }
 }
+
+/* الشاشات المتوسطة (تابلت وأجهزة 768px إلى 990px) */
+@media (min-width: 768px) and (max-width: 990px) {
+  .modal-content { width: 70%; }
+}
+
+/* الشاشات الكبيرة (أجهزة ديسكتوب) */
 @media (min-width: 991px) {
-  .modal-content { width: 40%; }
+  .modal-content { width: 50%; }
 }
+
 
 /* Modal Close Button */
 .modal-content .close {
