@@ -1,21 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="ltr">
 
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CalcuMate</title>
-    <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="calculator.png">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('color');
+            if (savedTheme) {
+                document.documentElement.className = savedTheme;
+            }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
     <div class="calculator">
-        <!-- Start Settings Box -->
+
+        <!-- Settings Box -->
         <div class="settings-box">
             <h2>options</h2>
             <div class="settings">
+                <!-- Change Style -->
                 <div class="option-box">
                     <h4>Change style</h4>
                     <ul class="colors-list">
@@ -26,6 +37,7 @@
                     </ul>
                 </div>
 
+                <!-- Sound Option -->
                 <div class="option-box">
                     <h4>Play click sound</h4>
                     <div class="sound-option">
@@ -34,87 +46,118 @@
                     </div>
                 </div>
 
+                <!-- Vibration Option -->
                 <div class="option-box">
-                    <h4>vibration on touch</h4>
+                    <h4>Vibration on touch</h4>
                     <div class="vibration-option">
                         <span data-value="yes">Yes</span>
                         <span class="active" data-value="no">No</span>
                     </div>
                 </div>
 
+                <!-- Memory Buttons Option -->
                 <div class="option-box">
-                    <h4>memory buttons</h4>
+                    <h4>Memory buttons</h4>
                     <div class="memory-buttons-option">
-                        <span data-value="show">show</span>
-                        <span class="active" data-value="hidden">hidden</span>
+                        <span data-value="show" class="active">Show</span>
+                        <span data-value="hidden">Hidden</span>
                     </div>
                 </div>
+
                 <button class="reset-options">Reset Options</button>
             </div>
+
+            <!-- Other Links -->
             <div class="others">
-                <h3>others</h3>
-                <p><a class="shareBtn">share this app</a></p>
-                <p><a class="feedbackLink">send feedback</a></p>
-                <p><a>rate this app</a></p>
-                <p><a>check for updates</a></p>
-                <p><a>about</a></p>
+                <h3>Others</h3>
+                <p><a class="shareBtn">Share this app</a></p>
+                <p><a class="feedbackLink">Send feedback</a></p>
+                <p><a>Rate this app</a></p>
+                <p><a>Check for updates</a></p>
+                <p><a>About</a></p>
             </div>
         </div>
-        <!-- End Settings Box -->
 
+        <!-- Calculator Screen -->
         <div class="screen">
             <ul class="setting">
                 <li></li>
                 <li></li>
                 <li></li>
+                <li></li>
             </ul>
             <span>m</span>
-            <input type="text" id="screen" disabled="disabled" aria-label="calculator screen" />
+            <input type="text" id="screen" disabled aria-label="calculator screen" />
         </div>
+
+        <!-- Calculator Keys -->
         <div class="keys">
+
+            <!-- الصف 1: الذاكرة والتحكم -->
             <button class="key memory" value="MR">MR</button>
             <button class="key memory" value="MC">MC</button>
             <button class="key memory" value="M+">M+</button>
             <button class="key memory" value="M-">M-</button>
 
+            <!-- الصف 2: التحكم -->
+            <button class="key clear" value="clear">C</button>
+            <button class="key" value="(">(</button>
+            <button class="key" value=")">)</button>
+            <button class="key backspace" value="backspace">←</button>
+
+            <!-- الصف 3 -->
             <button class="key" value="7">7</button>
             <button class="key" value="8">8</button>
             <button class="key" value="9">9</button>
             <button class="key operator" value="÷">÷</button>
 
+            <!-- الصف 4 -->
             <button class="key" value="4">4</button>
             <button class="key" value="5">5</button>
             <button class="key" value="6">6</button>
             <button class="key operator" value="×">×</button>
 
+            <!-- الصف 5 -->
             <button class="key" value="1">1</button>
             <button class="key" value="2">2</button>
             <button class="key" value="3">3</button>
             <button class="key operator" value="-">−</button>
 
-            <button class="key" value="0">0</button>
+            <!-- الصف 6 -->
             <button class="key" value="00">00</button>
+            <button class="key" value="0">0</button>
             <button class="key" value=".">.</button>
             <button class="key operator" value="+">+</button>
 
-            <button class="key clear" value="clear">C</button>
+            <!-- الصف 7 -->
             <button class="key hold" value="%">%</button>
+            <button id="history-btn" class="history">History</button>
+            <button id="copy-display-btn" class="copy-result-btn">Copy</button>
             <button class="key equal" value="=">=</button>
-            <button id="history-btn" class="history">history</button>
 
         </div>
+
+
+
+
+
+        <!-- History Modal -->
         <div id="history-modal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <ul id="history-list"></ul>
                 <div class="hold">
-                    <button id="clear-history-btn">Clear history</button>
-                    <button id="copy-btn">copy</button>
+                    <button id="clear-history-btn">Clear History</button>
+                    <button id="copy-btn">Copy History</button>
                 </div>
             </div>
         </div>
+
     </div>
-    <script src="js/main.js"></script>
+
+    <!-- مكتبة math.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>

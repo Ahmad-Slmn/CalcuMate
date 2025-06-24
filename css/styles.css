@@ -1,0 +1,513 @@
+/* === القواعد العامة === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-transform: capitalize;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;  /* تمركز أفقي */
+  align-items: center;      /* تمركز عمودي */
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: var(--body-background);
+  overflow: hidden;
+}
+
+:root {
+  --body-background: #fff;
+  --calculator-background: #303030;
+  --screen-background: #1c1c1c;
+  --key-background: #404040;
+  --key-color: #ffff;
+  --key-hover-background: #585858;
+  --key-active: #262626;
+  --operator-background: #ff9500;
+  --clear-background: #ff3b30;
+  --modal-content: #1c1c1c;
+  --trsition: all 0.3s;
+}
+
+/* === الثيمات الداكنة === */
+.Dark-Gunmetal,
+.Hexadecimal,
+.Dark-Slate-Blue {
+  --calculator-background: var(--body-background);
+}
+
+.Dark-Gunmetal {
+  --body-background: #1a2634;
+  --screen-background: #0f1722;
+  --key-background: #1f2b3a;
+  --key-hover-background: #364f63;
+  --key-active: #1a2634;
+  --operator-background: #3867d6;
+  --clear-background: #1f2b3a;
+  --modal-content: #0f1722;
+}
+
+.Hexadecimal {
+  --body-background: #3B3E4D;
+  --screen-background: #292C38;
+  --key-background: #484D5A;
+  --key-hover-background: #60657C;
+  --key-active: #21232B;
+  --operator-background: #E91E63;
+  --clear-background: red;
+  --modal-content: #484D5A;
+}
+
+.Dark-Slate-Blue {
+  --body-background: #1e1f2a;
+  --screen-background: #313342;
+  --key-background: #3e405b;
+  --key-hover-background: #50537c;
+  --key-active: #2f2f3e;
+  --operator-background: #ff6348;
+  --clear-background: #f53b57;
+  --modal-content: #2d2d44;
+}
+
+
+/* === رسائل نجاح === */
+.success-message {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  background: green;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 9999;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* === الآلة الحاسبة === */
+.calculator {
+  width: 100%;
+  max-width: 400px; /* أقصى عرض */
+  margin: 0 auto;
+  background: var(--calculator-background);
+  border-radius: 10px;
+  box-shadow: 0 0 10px #000;
+  overflow: hidden;
+  position: relative;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* === صندوق الإعدادات === */
+.settings-box {
+  position: fixed;
+  top: 0;
+  left: -200px;
+  width: 200px;
+  background: var(--operator-background);
+  min-height: 100vh;
+  transition: var(--trsition);
+  z-index: 999;
+}
+.settings-box.show { left: 0; }
+.settings-box h2, .others h3 { text-align: center; color: #fff; }
+
+.settings {
+  border-bottom: 1px solid #fff;
+}
+.option-box {
+  margin: 10px;
+  background: #ddd;
+  text-align: center;
+  border-radius: 6px;
+}
+.option-box h4 {
+  font-size: 14px;
+  color: #666;
+}
+.colors-list {
+  margin: 10px 0 0;
+}
+.colors-list li {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: #333;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.colors-list li.active {
+  border: 2px solid #fff;
+  padding: 3px;
+  width: 22px;
+  height: 22px;
+}
+.colors-list li:nth-child(1) { background: #ff9500; }
+.colors-list li:nth-child(2) { background: #3867d6; }
+.colors-list li:nth-child(3) { background: #E91E63; }
+.colors-list li:nth-child(4) { background: #1e1f2a; }
+
+.option-box span {
+  display: inline-block;
+  width: 60px;
+  margin: 10px auto;
+  padding: 4px 0;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  background: var(--operator-background);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--trsition);
+  opacity: 0.5;
+}
+span.active,
+span:hover {
+  opacity: 1;
+  border: 2px solid #fff;
+}
+
+.reset-options {
+  display: block;
+  margin: 10px;
+  padding: 10px;
+  color: #fff;
+  background: var(--clear-background);
+  border: 1px solid #fff;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--trsition);
+}
+.reset-options:hover {
+  opacity: 0.5;
+}
+
+.others {
+  padding: 20px 10px;
+}
+.others a {
+  display: block;
+  margin: 20px 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: var(--trsition);
+}
+.others a:hover {
+  color: #333;
+}
+
+/* === الشاشة === */
+.screen {
+   background: var(--key-background);
+  color: var(--key-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  overflow: hidden;
+  border-radius: 6px
+}
+.screen ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   background: var(--screen-background);
+    gap: 3px;
+    list-style: none;
+    height: 100%;
+    width: 15%;
+}
+.screen li {
+  width: 8px;
+  height: 7px;
+  background: #fff;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.screen input {
+  width: 85%;
+  padding-left: 5px;
+  font-size: 20px;
+  border: none;
+  letter-spacing: 5px;
+  background: inherit;
+  color: inherit
+}
+.screen > span {
+  position: absolute;
+  top: 0;
+  left: 48px;
+  color: var(--operator-background);
+  display: none;
+}
+
+/* === لوحة المفاتيح === */
+.keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 8px; /* تباعد عمودي 10 بكسل وأفقي 8 بكسل */
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.key,
+.history,
+.copy-result-btn{
+  width: calc(25% - 8px);
+  height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--key-color);
+  border: none;
+  border-radius: 5px;
+  background: var(--key-background);
+  cursor: pointer;
+  transition: var(--trsition);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.key.memory {
+  display: none;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.history,
+.copy-result-btn{
+  font-size: 14px;
+  background: var(--operator-background);
+}
+
+.operator,
+.equal{
+  background: var(--operator-background);
+  color: var(--key-color);
+}
+
+.key:hover,
+.history:hover {
+  background: var(--key-hover-background);
+}
+
+.key:active {
+  background: var(--key-active);
+}
+
+#copy-result-btn:hover {
+  background: var(--key-hover-background);
+}
+
+#copy-result-btn:active {
+  background: var(--key-active);
+}
+
+/* === النافذة المنبثقة === */
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  padding-top: 100px;
+  background: rgba(0, 0, 0, 0.9);
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.modal.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* تفعيل التفاعل عند ظهوره */
+}
+
+.modal-content {
+  width: 60%;
+  margin: auto;
+  padding: 30px 10px;
+  background: var(--modal-content);
+  border: 1px solid #888;
+  border-radius: 10px;
+  font-weight: bold;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Responsive Modal Width */
+@media (max-width: 767px) {
+  .modal-content { width: 97%; }
+}
+@media (min-width: 991px) {
+  .modal-content { width: 40%; }
+}
+
+/* Modal Close Button */
+.modal-content .close {
+  font-size: 28px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 3px;
+  color: #fff;
+  transition: var(--trsition);
+}
+.modal-content .close:hover {
+  color: #000;
+}
+
+/* History List */
+#history-list {
+  list-style: none;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 5px;
+  overflow: auto;
+  max-height: 400px;
+  scroll-behavior: smooth;
+}
+#history-list::-webkit-scrollbar {
+  width: 8px;
+}
+#history-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+#history-list::-webkit-scrollbar-thumb {
+  background: var(--calculator-background);
+  border-radius: 10px;
+}
+#history-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+#history-list li {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 15px;
+  border-bottom: 1px solid var(--calculator-background);
+}
+#history-list li:last-of-type {
+  border-bottom: none;
+}
+#history-list li div {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+}
+#history-list li div span:last-of-type {
+  color: var(--clear-background);
+}
+#history-list li > button {
+  background: var(--clear-background);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--trsition);
+}
+#history-list li > button:hover {
+  background: var(--key-hover-background);
+}
+
+/* History Modal Buttons */
+.modal-content > div button {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  color: #fff;
+  border: 1px solid #fff;
+  outline: none;
+  cursor: pointer;
+  transition: var(--trsition);
+}
+#clear-history-btn {
+  margin-top: 10px;
+  background: var(--clear-background);
+}
+#clear-history-btn:hover,
+.modal-content > div button:last-of-type:hover {
+  background: var(--key-hover-background);
+}
+.modal-content > div button:last-of-type {
+  background: green;
+}
+
+/* Confirm Delete Overlay */
+.confirm-delete {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.confirm-delete-message {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.confirm-delete-message p {
+  margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: bold;
+}
+.confirm-delete-message button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: var(--trsition);
+}
+.confirm-delete-yes {
+  background: var(--clear-background);
+  margin-right: 10px;
+}
+.confirm-delete-no {
+  background: green;
+  animation: pulseFocus .8s ease-out 2; /* مرتين فقط */
+  outline: 2px solid lime;
+}
+
+.confirm-delete-message button:hover {
+  opacity: 0.7;
+}
+
+/* === Responsive keys and buttons === */
+@media (max-width: 480px) {
+  .key,
+  .history {
+    width: calc(48% - 8px);
+    height: 45px;
+    font-size: 18px;
+  }
+}
+
+@keyframes pulseFocus {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,255,0, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0,255,0, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,255,0, 0); }
+}
