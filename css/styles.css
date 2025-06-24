@@ -289,7 +289,7 @@ span:hover {
   background: var(--key-active);
 }
 
-.key.no-hover:hover {
+.no-hover:hover {
   background: none !important;
 }
 
