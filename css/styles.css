@@ -289,10 +289,6 @@ span:hover {
   background: var(--key-active);
 }
 
-.key.no-active:active {
-  background: red !important;
-}
-
 
 #copy-result-btn:hover {
   background: var(--key-hover-background);
@@ -301,6 +297,15 @@ span:hover {
 #copy-result-btn:active {
   background: var(--key-active);
 }
+
+/* تعطيل تأثير hover وactive عند وجود كلاس no-effects */
+.key.no-effects,
+.key.no-effects:hover,
+.key.no-effects:active {
+  background: var(--key-background) !important;
+  transition: none !important;
+}
+
 
 /* === النافذة المنبثقة === */
 .modal {

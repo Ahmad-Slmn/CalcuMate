@@ -88,14 +88,17 @@ let isTouchDevice = false;
 
 keys.forEach(key => {
   // عند اللمس: أضف الكلاس ثم أزله بعد وقت قصير
-  key.addEventListener('touchstart', () => {
-    isTouchDevice = true;
-    key.classList.add('no-active');
-    setTimeout(() => key.classList.remove('no-active'), 100); // إزالة بعد 100ms
-    playSound();
-    vibrate();
-    handleLongPress(key);
-  });
+key.addEventListener('touchstart', () => {
+  isTouchDevice = true;
+  key.classList.add('no-effects');
+  playSound();
+  vibrate();
+  handleLongPress(key);
+
+  // إزالة التأثير بعد وقت قصير
+  setTimeout(() => key.classList.remove('no-effects'), 150);
+});
+
 
   key.addEventListener('touchend', () => {
     clearTimer();
