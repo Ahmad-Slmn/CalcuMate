@@ -93,7 +93,8 @@ keys.forEach(key => {
     vibrate();
     handleLongPress(key);
 
-    setTimeout(() => key.classList.remove('no-effects'), 100);
+    setTimeout(() => key.classList.remove('no-effects'), 300);
+
   });
 
   key.addEventListener('touchend', () => {
