@@ -307,6 +307,10 @@ span:hover {
   background: var(--key-active);
 }
 
+.key.no-hover:hover {
+  background: none !important;
+}
+
 #copy-result-btn:hover {
   background: var(--key-hover-background);
 }
