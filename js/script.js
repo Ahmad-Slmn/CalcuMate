@@ -39,26 +39,38 @@ document.addEventListener('keydown', e => {
     }
 });
 
-function showMessage(text, bgColor = 'red', parent = document.body) {
-    const msg = document.createElement('div');
-    msg.className = 'success-message';
-    msg.innerText = text;
-    msg.style.backgroundColor = bgColor;
-    parent.appendChild(msg);
+function showMessage(text, type = 'error', parent = document.body) {
+  const msg = document.createElement('div');
+  msg.className = 'calc-message';
+  msg.innerText = text;
 
-    // تشغيل النغمة
-    const beep = new Audio('sounds/notify.mp3');
-    beep.play().catch(() => {
-        /* تجاهل الخطأ إذا لم يُسمح بتشغيل الصوت تلقائياً */ });
+  // تعيين اللون حسب نوع الرسالة
+  msg.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336'; // أخضر أو أحمر
+  msg.style.color = '#fff';
+  msg.style.padding = '12px 20px';
+  msg.style.position = 'fixed';
+  msg.style.top = '20px';
+  msg.style.left = '50%';
+  msg.style.transform = 'translateX(-50%)';
+  msg.style.borderRadius = '6px';
+  msg.style.boxShadow = '0 2px 10px rgba(0,0,0,0.15)';
+  msg.style.opacity = '0';
+  msg.style.transition = 'opacity 0.3s ease';
+  msg.style.zIndex = '9999';
 
-    setTimeout(() => {
-        msg.style.opacity = '1';
-    }, 30);
-    setTimeout(() => {
-        msg.style.opacity = '0';
-        setTimeout(() => msg.remove(), 1000);
-    }, 2000);
+  parent.appendChild(msg);
+
+  // تشغيل صوت التنبيه
+  const beep = new Audio('sounds/notify.mp3');
+  beep.play().catch(() => {});
+
+  setTimeout(() => { msg.style.opacity = '1'; }, 30);
+  setTimeout(() => {
+    msg.style.opacity = '0';
+    setTimeout(() => msg.remove(), 1000);
+  }, 2000);
 }
+
 
 function clearTimer() {
     clearTimeout(timer);
@@ -77,16 +89,12 @@ let isTouchDevice = false;
 
 // الكشف عن تفاعل اللمس لأول مرة
 keys.forEach(key => {
-    // إزالة تأثير hover عند بداية اللمس
   key.addEventListener('touchstart', () => {
     key.classList.add('no-hover');
   });
 
-  // إعادة السماح بتأثير hover بعد انتهاء اللمس
   key.addEventListener('touchend', () => {
-    setTimeout(() => {
-      key.classList.remove('no-hover');
-    }, 300);
+    key.classList.remove('no-hover');
   });
     
   key.addEventListener('touchstart', () => { isTouchDevice = true; }, { once: true });
@@ -192,51 +200,57 @@ function handleKeyPress(key) {
   }
 
   if (value === '=') {
-    let operation = screenElement.value.trim();
-    if (!operation) {
-      showMessage("Please enter an arithmetic operation");
-      return;
-    }
-
-    if (/[^0-9+\-÷×%().]/.test(operation)) {
-      alert('Please enter a valid arithmetic operation');
-      return;
-    }
-
-    try {
-      operation = operation.replace(/(\d+(\.\d+)?)%/g, (match, p1, p2, offset, str) => {
-        let prefix = str.slice(0, offset);
-        let matchPrev = prefix.match(/(\d+(\.\d+)?|\([^()]+\))\s*$/);
-        if (matchPrev) {
-          let prevNumberOrExpr = matchPrev[1];
-          return `(${prevNumberOrExpr}*${p1}/100)`;
-        } else {
-          return `(${p1}/100)`;
-        }
-      });
-
-      const expression = operation.replace(/×/g, '*').replace(/÷/g, '/');
-      const result = math.evaluate(expression);
-
-      const pad = num => String(num).padStart(2, '0');
-      const date = new Date();
-      const timestamp = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
-
-      const operationHTML = `
-        <div>
-          <span class="Operation-Text">${operation} = ${result}</span>
-          <span class="Operation-Date">${timestamp}</span>
-        </div>
-      `;
-
-      operations.push(operationHTML);
-      localStorage.setItem("operations", JSON.stringify(operations));
-      screenElement.value = result.toString();
-    } catch {
-      alert('Error evaluating the expression.');
-    }
+  let operation = screenElement.value.trim();
+  if (!operation) {
+    showMessage("Please enter an arithmetic operation");
     return;
   }
+
+  // تحقق من أن العملية تحتوي على عامل حسابي على الأقل
+  if (!/[+\-×÷]/.test(operation)) {
+    showMessage("Please enter a valid arithmetic operation with operator", "error");
+    return;
+  }
+
+  if (/[^0-9+\-÷×%().]/.test(operation)) {
+    showMessage("Please enter a valid arithmetic operation", "error");
+    return;
+  }
+
+  try {
+    operation = operation.replace(/(\d+(\.\d+)?)%/g, (match, p1, p2, offset, str) => {
+      let prefix = str.slice(0, offset);
+      let matchPrev = prefix.match(/(\d+(\.\d+)?|\([^()]+\))\s*$/);
+      if (matchPrev) {
+        let prevNumberOrExpr = matchPrev[1];
+        return `(${prevNumberOrExpr}*${p1}/100)`;
+      } else {
+        return `(${p1}/100)`;
+      }
+    });
+
+    const expression = operation.replace(/×/g, '*').replace(/÷/g, '/');
+    const result = math.evaluate(expression);
+
+    const pad = num => String(num).padStart(2, '0');
+    const date = new Date();
+    const timestamp = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+
+    const operationHTML = `
+      <div>
+        <span class="Operation-Text">${operation} = ${result}</span>
+        <span class="Operation-Date">${timestamp}</span>
+      </div>
+    `;
+
+    operations.push(operationHTML);
+    localStorage.setItem("operations", JSON.stringify(operations));
+    screenElement.value = result.toString();
+  } catch {
+    showMessage("Error evaluating the expression.", "error");
+  }
+  return;
+}
 
   screenElement.value += value;
 }
@@ -249,13 +263,13 @@ document.getElementById('copy-display-btn').addEventListener('click', () => {
     const value = screenElement.value.trim();
 
     if (value === '') {
-        showMessage("Nothing to copy!", "red");
+        showMessage("Nothing to copy!", "error");
         return;
     }
 
     navigator.clipboard.writeText(value)
-        .then(() => showMessage("Copied!", "green"))
-        .catch(() => showMessage("Copy failed", "red"));
+        .then(() => showMessage("Copied!", "success"))
+        .catch(() => showMessage("Copy failed", "error"));
 });
 
 
@@ -289,8 +303,8 @@ function renderHistory() {
             if (opTextSpan) {
                 const textToCopy = opTextSpan.textContent;
                 navigator.clipboard.writeText(textToCopy)
-                    .then(() => showMessage("Operation copied!", "green"))
-                    .catch(() => showMessage("Copy failed", "red"));
+                    .then(() => showMessage("Operation copied!", "success"))
+                    .catch(() => showMessage("Copy failed", "error"));
             }
         };
 
@@ -304,7 +318,7 @@ function renderHistory() {
                 operations.splice(idx, 1);
                 localStorage.setItem("operations", JSON.stringify(operations));
                 renderHistory();
-                showMessage("Selected history has been deleted.", 'red', modal);
+                showMessage("Selected history has been deleted.", 'error', modal);
             }
         };
 
@@ -332,7 +346,7 @@ historyBtn.addEventListener('click', () => {
 
 clearHistoryBtn.addEventListener('click', () => {
     if (operations.length === 0) {
-        showMessage("There is no history to delete!", 'red', modal);
+        showMessage("There is no history to delete!", "error");
         return;
     }
 
@@ -352,7 +366,7 @@ clearHistoryBtn.addEventListener('click', () => {
         localStorage.removeItem("operations");
         renderHistory();
         confirmDelete.remove();
-        showMessage("All history have been deleted.", 'red', modal);
+        showMessage("All history have been deleted", "success");
     };
 
     confirmDelete.querySelector('.confirm-delete-no').onclick = () => {
@@ -364,7 +378,7 @@ clearHistoryBtn.addEventListener('click', () => {
 const copyBtn = document.getElementById('copy-btn');
 
 copyBtn.onclick = () => {
-    if (!operations.length) return showMessage('No history to copy.', 'red');
+    if (!operations.length) return showMessage('No history to copy.', 'error');
 
     const operationsText = operations
         .map(op => {
@@ -383,7 +397,7 @@ copyBtn.onclick = () => {
     textArea.select();
     document.execCommand('copy');
     document.body.removeChild(textArea);
-    showMessage('History copied successfully');
+    showMessage("History copied successfully", "success");
 };
 
 // Settings Box Width Sync
