@@ -268,20 +268,14 @@ span:hover {
   transition: opacity 0.5s ease-in-out;
 }
 
+.operator,
+.equal,
 .history,
 .copy-result-btn {
-  font-size: 14px;
-  background: var(--operator-background);
+    background: var(--operator-background)
 }
 
-.operator,
-.equal {
-  background: var(--operator-background);
-  color: var(--key-color);
-}
-
-.key:hover,
-.history:hover {
+.key:hover {
   background: var(--key-hover-background);
 }
 
@@ -308,13 +302,21 @@ span:hover {
 /* تعطيل تأثير hover وactive تلقائيًا على الأجهزة اللمسية */
 @media (hover: none) and (pointer: coarse) {
   .key:hover,
-  .key:active,
+  .key:active
+   {
+    background: var(--key-background) !important;
+    transition: none !important;
+  }
+  
+  .operator:hover,
+  .operator:active,
+  .equal:hover,
+  .equal:active,
   .history:hover,
   .history:active,
   #copy-result-btn:hover,
   #copy-result-btn:active {
-    background: var(--key-background) !important;
-    transition: none !important;
+      background: var(--operator-background)
   }
 }
 
