@@ -1,302 +1,348 @@
 /* === القواعد العامة === */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  text-transform: capitalize;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-transform: capitalize;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+html,
+body {
+    height: 100%;
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-family: Arial, sans-serif;
-  background-color: var(--body-background);
-  overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--body-background);
+    overflow: hidden;
 }
 
+/* === المتغيرات العامة === */
 :root {
-  --body-background: #fff;
-  --calculator-background: #303030;
-  --screen-background: #1c1c1c;
-  --key-background: #404040;
-  --key-color: #ffff;
-  --key-hover-background: #585858;
-  --key-active: #262626;
-  --operator-background: #ff9500;
-  --clear-background: #ff3b30;
-  --modal-content: #1c1c1c;
-  --trsition: all 0.3s;
+    --body-background: #fff;
+    --calculator-background: #303030;
+    --screen-background: #1c1c1c;
+    --key-background: #404040;
+    --key-color: #fff;
+    --key-hover-background: #585858;
+    --key-active: #262626;
+    --operator-background: #ff9500;
+    --clear-background: #ff3b30;
+    --modal-content: #1c1c1c;
+    --trsition: all 0.3s;
 }
 
 /* === الثيمات الداكنة === */
 .Dark-Gunmetal,
 .Hexadecimal,
 .Dark-Slate-Blue {
-  --calculator-background: var(--body-background);
+    --calculator-background: var(--body-background);
 }
 
 .Dark-Gunmetal {
-  --body-background: #1a2634;
-  --screen-background: #0f1722;
-  --key-background: #1f2b3a;
-  --key-hover-background: #364f63;
-  --key-active: #1a2634;
-  --operator-background: #3867d6;
-  --clear-background: #1f2b3a;
-  --modal-content: #0f1722;
+    --body-background: #1a2634;
+    --screen-background: #0f1722;
+    --key-background: #1f2b3a;
+    --key-hover-background: #364f63;
+    --key-active: #1a2634;
+    --operator-background: #3867d6;
+    --clear-background: #1f2b3a;
+    --modal-content: #0f1722;
 }
 
 .Hexadecimal {
-  --body-background: #3B3E4D;
-  --screen-background: #292C38;
-  --key-background: #484D5A;
-  --key-hover-background: #60657C;
-  --key-active: #21232B;
-  --operator-background: #E91E63;
-  --clear-background: red;
-  --modal-content: #484D5A;
+    --body-background: #3B3E4D;
+    --screen-background: #292C38;
+    --key-background: #484D5A;
+    --key-hover-background: #60657C;
+    --key-active: #21232B;
+    --operator-background: #E91E63;
+    --clear-background: red;
+    --modal-content: #484D5A;
 }
 
 .Dark-Slate-Blue {
-  --body-background: #1e1f2a;
-  --screen-background: #313342;
-  --key-background: #3e405b;
-  --key-hover-background: #50537c;
-  --key-active: #2f2f3e;
-  --operator-background: #ff6348;
-  --clear-background: #f53b57;
-  --modal-content: #2d2d44;
+    --body-background: #1e1f2a;
+    --screen-background: #313342;
+    --key-background: #3e405b;
+    --key-hover-background: #50537c;
+    --key-active: #2f2f3e;
+    --operator-background: #ff6348;
+    --clear-background: #f53b57;
+    --modal-content: #2d2d44;
 }
 
 /* === الآلة الحاسبة === */
 .calculator {
-  width: 100%;
-  max-width: 400px; /* أقصى عرض */
-  margin: 0 auto;
-  background: var(--calculator-background);
-  border-radius: 10px;
-  box-shadow: 0 0 10px #000;
-  overflow: hidden;
-  position: relative;
-  padding: 10px;
-  box-sizing: border-box;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    background: var(--calculator-background);
+    border-radius: 10px;
+    box-shadow: 0 0 10px #000;
+    overflow: hidden;
+    position: relative;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 /* === صندوق الإعدادات === */
 .settings-box {
-  position: fixed;
-  top: 0;
-  left: -200px;
-  width: 200px;
-  background: var(--operator-background);
-  min-height: 100vh;
-  transition: var(--trsition);
-  z-index: 999;
+    position: fixed;
+    top: 0;
+    left: -200px;
+    width: 200px;
+    min-height: 100vh;
+    background: var(--operator-background);
+    transition: var(--trsition);
+    z-index: 999;
 }
-.settings-box.show { left: 0; }
-.settings-box h2, .others h3 { text-align: center; color: #fff; }
+
+.settings-box.show {
+    left: 0;
+}
+
+.settings-box h2,
+.others h3 {
+    text-align: center;
+    color: #fff;
+}
 
 .settings {
-  border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #fff;
 }
-.option-box {
-  margin: 10px;
-  background: #ddd;
-  text-align: center;
-  border-radius: 6px;
-}
-.option-box h4 {
-  font-size: 14px;
-  color: #666;
-}
-.colors-list {
-  margin: 10px 0 0;
-}
-.colors-list li {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  background: #333;
-  border-radius: 50%;
-  cursor: pointer;
-}
-.colors-list li.active {
-  border: 2px solid #fff;
-  padding: 3px;
-  width: 22px;
-  height: 22px;
-}
-.colors-list li:nth-child(1) { background: #ff9500; }
-.colors-list li:nth-child(2) { background: #3867d6; }
-.colors-list li:nth-child(3) { background: #E91E63; }
-.colors-list li:nth-child(4) { background: #1e1f2a; }
 
-.option-box span {
-  display: inline-block;
-  width: 60px;
-  margin: 10px auto;
-  padding: 4px 0;
-  font-size: 12px;
-  font-weight: bold;
-  color: #fff;
-  background: var(--operator-background);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: var(--trsition);
-  opacity: 0.5;
+.option-box {
+    margin: 10px;
+    background: #ddd;
+    text-align: center;
+    border-radius: 6px;
 }
+
+.option-box h4 {
+    font-size: 14px;
+    color: #666;
+}
+
+/* === قائمة الألوان === */
+.colors-list {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.colors-list li {
+    width: 20px;
+    height: 20px;
+    background: #333;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: border 0.3s;
+}
+
+.colors-list li.active {
+    border: 2px solid #fff;
+    padding: 3px;
+    width: 22px;
+    height: 22px;
+}
+
+.colors-list li:nth-child(1) {
+    background: #ff9500;
+}
+
+.colors-list li:nth-child(2) {
+    background: #3867d6;
+}
+
+.colors-list li:nth-child(3) {
+    background: #E91E63;
+}
+
+.colors-list li:nth-child(4) {
+    background: #1e1f2a;
+}
+
+/* === أزرار الخيارات === */
+.option-box span {
+    display: inline-block;
+    width: 60px;
+    margin: 10px auto;
+    padding: 4px 0;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+    background: var(--operator-background);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--trsition);
+    opacity: 0.5;
+}
+
 span.active,
 span:hover {
-  opacity: 1;
-  border: 2px solid #fff;
+    opacity: 1;
+    border: 2px solid #fff;
 }
 
+/* === زر إعادة التعيين === */
 .reset-options {
-  display: block;
-  margin: 10px;
-  padding: 10px;
-  color: #fff;
-  background: var(--clear-background);
-  border: 1px solid #fff;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: var(--trsition);
+    display: block;
+    margin: 10px;
+    padding: 10px;
+    color: #fff;
+    background: var(--clear-background);
+    border: 1px solid #fff;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--trsition);
 }
+
 .reset-options:hover {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 
+/* === الروابط الأخرى === */
 .others {
-  padding: 20px 10px;
-}
-.others a {
-  display: block;
-  margin: 20px 10px;
-  color: #fff;
-  cursor: pointer;
-  transition: var(--trsition);
-}
-.others a:hover {
-  color: #333;
+    padding: 20px 10px;
 }
 
-/* === الشاشة === */
-.screen {
-   background: var(--key-background);
-  color: var(--key-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 50px;
-  overflow: hidden;
-  border-radius: 6px
+.others a {
+    display: block;
+    margin: 20px 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: var(--trsition);
 }
+
+.others a:hover {
+    color: #333;
+}
+
+/* === شاشة العرض === */
+.screen {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 6px;
+    background: var(--key-background);
+    color: var(--key-color);
+    position: relative;
+}
+
+.screen input {
+    width: 85%;
+    padding-left: 5px;
+    font-size: 20px;
+    border: none;
+    letter-spacing: 5px;
+    background: inherit;
+    color: inherit;
+    outline: none;
+}
+
 .screen ul {
     display: flex;
     justify-content: center;
     align-items: center;
-   background: var(--screen-background);
+    background: var(--screen-background);
     gap: 3px;
     list-style: none;
     height: 100%;
     width: 15%;
+    margin: 0;
+    padding: 0;
 }
+
 .screen li {
-  width: 8px;
-  height: 7px;
-  background: #fff;
-  border-radius: 2px;
-  cursor: pointer;
+    width: 8px;
+    height: 7px;
+    background: #fff;
+    border-radius: 2px;
+    cursor: pointer;
 }
-.screen input {
-  width: 85%;
-  padding-left: 5px;
-  font-size: 20px;
-  border: none;
-  letter-spacing: 5px;
-  background: inherit;
-  color: inherit;
-  outline: none
-}
+
 .screen > span {
-  position: absolute;
-  top: 0;
-  left: 48px;
-  color: var(--operator-background);
-  display: none;
+    position: absolute;
+    top: 0;
+    right: 5px;
+    font-weight: 600;
+    color: var(--key-color);
+    display: none;
 }
 
 /* === لوحة المفاتيح === */
 .keys {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 8px; /* تباعد عمودي 10 بكسل وأفقي 8 بكسل */
-  justify-content: center;
-  padding: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 8px;
+    padding: 10px 0;
 }
 
 .key,
 .history,
-.copy-result-btn {
-  width: calc(25% - 8px);
-  height: 50px;
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--key-color);
-  border: none;
-  border-radius: 5px;
-  background: var(--key-background);
-  cursor: pointer;
-  transition: var(--trsition);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  user-select: none;
+.copy-display-btn {
+    width: calc(25% - 8px);
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--key-color);
+    border: none;
+    border-radius: 5px;
+    background: var(--key-background);
+    cursor: pointer;
+    transition: var(--trsition);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
 }
 
 .key.memory {
-  display: none;
-  transition: opacity 0.5s ease-in-out;
+    display: none;
+    transition: opacity 0.5s ease-in-out;
 }
 
 .operator,
 .equal,
 .history,
-.copy-result-btn {
-    background: var(--operator-background)
+.copy-display-btn {
+    background: var(--operator-background);
 }
 
 .key:hover {
-  background: var(--key-hover-background);
+    background: var(--key-hover-background);
 }
 
 .key:active {
-  background: var(--key-active);
+    background: var(--key-active);
 }
 
-#copy-result-btn:hover {
-  background: var(--key-hover-background);
+#copy-display-btn:hover {
+    background: var(--key-hover-background);
 }
 
-#copy-result-btn:active {
-  background: var(--key-active);
+#copy-display-btn:active {
+    background: var(--key-active);
 }
 
 /* تعطيل تأثير hover وactive عند وجود كلاس no-effects */
 .key.no-effects,
 .key.no-effects:hover,
 .key.no-effects:active {
-  background: var(--key-background) !important;
-  transition: none !important;
+    background: var(--key-background) !important;
+    transition: none !important;
 }
 
 /* تعطيل تأثير hover وactive تلقائيًا على الأجهزة اللمسية */
@@ -314,206 +360,439 @@ span:hover {
     .equal:active,
     .history:hover,
     .history:active,
-    #copy-result-btn:hover,
-    #copy-result-btn:active {
+    #copy-display-btn:hover,
+    #copy-display-btn:active {
         background: var(--operator-background) !important;
         transition: none !important;
     }
 }
 
-
 /* === النافذة المنبثقة === */
 .modal {
-  position: fixed;
-  z-index: 1;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  padding-top: 100px;
-  background: rgba(0, 0, 0, 0.9);
-
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding-top: 100px;
+    background: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
 }
 
 .modal.show {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto; /* تفعيل التفاعل عند ظهوره */
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .modal-content {
-  width: 60%;
-  margin: auto;
-  padding: 30px 10px;
-  background: var(--modal-content);
-  border: 1px solid #888;
-  border-radius: 10px;
-  font-weight: bold;
-  overflow: hidden;
-  position: relative;
+    width: 60%;
+    margin: -50px auto;
+    padding: 30px 10px;
+    background: var(--modal-content);
+    border: 1px solid #888;
+    border-radius: 10px;
+    font-weight: bold;
+    overflow: hidden;
+    position: relative;
 }
-
-/* الشاشات الصغيرة (جوالات) */
-@media (max-width: 767px) {
-  .modal-content { width: 100%; }
-}
-
-/* الشاشات المتوسطة (تابلت وأجهزة 768px إلى 990px) */
-@media (min-width: 768px) and (max-width: 990px) {
-  .modal-content { width: 70%; }
-}
-
-/* الشاشات الكبيرة (أجهزة ديسكتوب) */
-@media (min-width: 991px) {
-  .modal-content { width: 50%; }
-}
-
 
 /* Modal Close Button */
 .modal-content .close {
-  font-size: 28px;
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  right: 3px;
-  color: #fff;
-  transition: var(--trsition);
-}
-.modal-content .close:hover {
-  color: #000;
+    position: absolute;
+    top: -7px;
+    right: 3px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #fff;
+    transition: var(--trsition);
 }
 
-/* History List */
+.modal-content .close:hover {
+    color: #000;
+}
+
+/* === Confirm Modal Styles === */
+.custom-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirm-action-content {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+}
+
+/* تمت إزالة .confirm-action-content p لتجنب التعارض */
+
+.confirm-action-message {
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+#confirmActionMessageText {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#confirmActionMessageTime {
+    font-size: 15px;
+    color: #555;
+    background-color: #eef5ff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: inline-block;
+    font-weight: 500;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.confirm-actions .btn-confirm,
+.confirm-actions .btn-cancel {
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #fff;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    min-width: 80px;
+}
+
+.confirm-actions .btn-confirm {
+    background: linear-gradient(135deg, #28a745, #218838);
+}
+
+.confirm-actions .btn-confirm:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    transform: scale(1);
+}
+
+.confirm-actions .btn-cancel {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+.confirm-actions .btn-cancel:hover {
+    background: linear-gradient(135deg, #c82333, #bd2130);
+    transform: scale(1.05);
+}
+
+
+/* === قائمة التاريخ === */
 #history-list {
-  list-style: none;
-  background: #fff;
-  border-radius: 10px;
-  padding: 10px 5px;
-  overflow: auto;
-  max-height: 400px;
-  scroll-behavior: smooth;
+    list-style: none;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 5px;
+    overflow: auto;
+    max-height: 330px;
+    scroll-behavior: smooth;
 }
+
 #history-list::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
+
 #history-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
+    background: #f1f1f1;
 }
+
 #history-list::-webkit-scrollbar-thumb {
-  background: var(--calculator-background);
-  border-radius: 10px;
+    background: var(--calculator-background);
+    border-radius: 10px;
 }
+
 #history-list::-webkit-scrollbar-thumb:hover {
-  background: #555;
+    background: #555;
 }
 
 #history-list li {
-  display: flex;
-  align-items: center;
-  padding: 10px 0;
-  font-size: 15px;
-  border-bottom: 1px solid var(--calculator-background);
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 15px;
+    border-bottom: 1px solid var(--calculator-background);
 }
+
 #history-list li:last-of-type {
-  border-bottom: none;
+    border-bottom: none;
 }
+
 #history-list li div {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  align-items: center;
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
 }
+
 #history-list li div span:last-of-type {
-  color: var(--clear-background);
+    color: var(--clear-background);
 }
+
 #history-list li > button {
-  background: var(--clear-background);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 5px 10px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: var(--trsition);
+    background: var(--clear-background);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--trsition);
 }
+
 #history-list li > button:hover {
-  background: var(--key-hover-background);
+    background: var(--key-hover-background);
 }
 
-/* History Modal Buttons */
-.modal-content > div button {
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  color: #fff;
-  border: 1px solid #fff;
-  outline: none;
-  cursor: pointer;
-  transition: var(--trsition);
+/* === قسم الحذف التلقائي === */
+.auto-clear-history {
+    padding: 1.5rem;
+    background: linear-gradient(to bottom right, #fff, #f3f4f6);
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    margin-top: 25px;
 }
+
+.auto-clear-history h4 {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    color: #007bff;
+}
+
+.auto-clear-history .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 1rem;
+}
+
+.auto-clear-history input[type="datetime-local"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background: #fff;
+    color: #333;
+    text-align: left;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    appearance: none;
+    position: relative;
+}
+
+.auto-clear-history input[type="datetime-local"]::before {
+    content: "📅";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 18px;
+    color: #666;
+    cursor: pointer;
+}
+
+.auto-clear-history input[type="datetime-local"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    outline: none;
+}
+
+.auto-clear-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 0.5rem;
+}
+
+.auto-clear-history .status-text {
+    width: 100%;
+    max-width: 400px;
+    font-size: 0.95rem;
+    color: #444;
+    margin-top: 1rem;
+    background: #eef1f4;
+    padding: 8px 12px;
+    border-left: 4px solid #007bff;
+    border-radius: 6px;
+}
+
+/* === الأزرار الرئيسية والثانوية === */
+.btn-primary,
+.btn-secondary {
+    padding: 10px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: #fff;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+/* === أزرار النافذة === */
+.modal-content .hold button {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    transition: var(--trsition);
+    border: none;
+}
+
 #clear-history-btn {
-  margin-top: 10px;
-  background: var(--clear-background);
-}
-#clear-history-btn:hover,
-.modal-content > div button:last-of-type:hover {
-  background: var(--key-hover-background);
-}
-.modal-content > div button:last-of-type {
-  background: green;
+    margin-top: 10px;
+    background: var(--clear-background);
 }
 
-/* Confirm Delete Overlay */
+#clear-history-btn:hover,
+.modal-content .hold button:last-of-type:hover {
+    background: var(--key-hover-background);
+}
+
+.modal-content .hold button:last-of-type {
+    background: green;
+}
+
+/* === Overlay الحذف المؤكد === */
 .confirm-delete {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
 }
+
 .confirm-delete-message {
-  background: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
+
 .confirm-delete-message p {
-  margin-bottom: 20px;
-  font-size: 15px;
-  font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 15px;
+    font-weight: bold;
 }
+
 .confirm-delete-message button {
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-  cursor: pointer;
-  transition: var(--trsition);
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: var(--trsition);
 }
+
 .confirm-delete-yes {
-  background: var(--clear-background);
-  margin-right: 10px;
+    background: var(--clear-background);
+    margin-right: 10px;
 }
+
 .confirm-delete-no {
-  background: green;
-  animation: pulseFocus .8s ease-out 2; /* مرتين فقط */
-  outline: 2px solid lime;
+    background: green;
+    animation: pulseFocus 0.8s ease-out 2;
+    outline: 2px solid lime;
 }
 
 .confirm-delete-message button:hover {
-  opacity: 0.7;
+    opacity: 0.7;
 }
 
 @keyframes pulseFocus {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,255,0, 0.7); }
-  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0,255,0, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,255,0, 0); }
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);
+    }
+
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(0, 255, 0, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
+    }
+}
+
+/* === استجابات الشاشات === */
+@media (max-width: 767px) {
+    .modal-content {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 990px) {
+    .modal-content {
+        width: 70%;
+    }
+}
+
+@media (min-width: 991px) {
+    .modal-content {
+        width: 50%;
+    }
 }

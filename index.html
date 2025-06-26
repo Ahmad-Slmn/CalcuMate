@@ -20,6 +20,7 @@
 </head>
 
 <body>
+
     <div class="calculator">
 
         <!-- Settings Box -->
@@ -131,8 +132,8 @@
 
             <!-- الصف 7 -->
             <button class="key hold" value="%">%</button>
-            <button id="history-btn" class="history">History</button>
-            <button id="copy-display-btn" class="copy-result-btn">Copy</button>
+            <button id="history-btn" class="key history">History</button>
+            <button id="copy-display-btn" class="key copy-display-btn">Copy</button>
             <button class="key equal" value="=">=</button>
 
         </div>
@@ -146,7 +147,40 @@
                     <button id="clear-history-btn">Clear History</button>
                     <button id="copy-btn">Copy History</button>
                 </div>
+                <!-- Auto Clear History Option -->
+                <div class="auto-clear-history">
+                    <h4>Auto Clear History</h4>
+
+                    <div class="form-group">
+                        <label for="autoClearDateTime">Select date & time to clear history:</label>
+                        <input type="datetime-local" id="autoClearDateTime" />
+                    </div>
+
+                    <div class="auto-clear-actions">
+                        <button id="setAutoClearBtn" class="btn-primary">Set Auto Clear</button>
+                        <button id="cancelAutoClearBtn" class="btn-secondary">Cancel Auto Clear</button>
+                    </div>
+
+                    <p id="autoClearStatus" class="status-text"></p>
+                </div>
+
+                <!-- Confirm Action Modal -->
+                <div id="confirmActionModal" class="custom-modal" style="display:none;">
+                    <div class="modal-content confirm-action-content">
+                        <div class="confirm-action-message">
+                            <p id="confirmActionMessageText">Are you sure?</p>
+                            <p id="confirmActionMessageTime">⏰ June 27, 2025, 03:00 AM</p>
+                        </div>
+                        <div class="confirm-actions">
+                            <button id="confirmActionYesBtn" class="btn-confirm">Yes</button>
+                            <button id="confirmActionNoBtn" class="btn-cancel">No</button>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
+
         </div>
 
     </div>
