@@ -177,31 +177,35 @@ function handleKeyPress(key) {
 
 // دعم التعامل مع الأقواس والمشغلين بشكل خاص
 function handleBracketAndOperator(value) {
-    const lastChar = screenElement.value.slice(-1);
-    if (screenElement.value.length === 0) {
-        // الشاشة فارغة ومحاولة إدخال عملية حسابية
-        showMessage("Cannot start with an operator. Please enter a number first.", "error");
-        return;
-    }
-    if (value === '(') {
-        screenElement.value += '(';
-    } else if (value === ')') {
-        const openCount = (screenElement.value.match(/\(/g) || []).length;
-        const closeCount = (screenElement.value.match(/\)/g) || []).length;
-        if (openCount > closeCount) {
-            screenElement.value += ')';
-        } else {
-            showMessage("No matching opening bracket.", "error");
-        }
+  const lastChar = screenElement.value.slice(-1);
+    
+  if (value === '(') {
+    // القوس الفاتح مسموح دائمًا
+    screenElement.value += '(';
+    return;
+  }
+
+  if (value === ')') {
+    const openCount = (screenElement.value.match(/\(/g) || []).length;
+    const closeCount = (screenElement.value.match(/\)/g) || []).length;
+    if (openCount > closeCount) {
+      screenElement.value += ')';
     } else {
-        if (!isNaN(lastChar) || ['%', ')', '('].includes(lastChar)) {
-            screenElement.value += value;
-        } else {
-            // آخر حرف ليس رقمًا أو رمزًا يسمح بإضافة العملية
-            showMessage("Operator must follow a number or closing bracket.", "error");
-        }
+      showMessage("No matching opening bracket.", "error");
     }
+    return;
+  }
+
+  // العمليات الحسابية الأخرى: + - × ÷
+  if (screenElement.value.length === 0) {
+    showMessage("Cannot start with an operator. Please enter a number first.", "error");
+  } else if (!isNaN(lastChar) || ['%', ')'].includes(lastChar)) {
+    screenElement.value += value;
+  } else {
+    showMessage("Operator must follow a number or closing bracket.", "error");
+  }
 }
+
 
 
 // تقييم التعبير الحسابي مع فحوصات متقدمة للأخطاء
